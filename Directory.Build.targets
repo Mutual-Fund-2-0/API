@@ -1,0 +1,13 @@
+<Project>
+  <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
+  <!-- Prevent test projects from being packed -->
+  <Target Name="PreventPackingTestProjects" BeforeTargets="Pack" Condition="'$(IsTestProject)' == 'true'">
+    <Error Text="Test projects must not be packed." />
+  </Target>
+
+  <!-- Ensure Reqnroll.json exists for IT -->
+  <Target Name="EnsureReqnrollConfigExists" BeforeTargets="Build" Condition="'$(MSBuildProjectName)' == 'IT'">
+    <Error Text="Reqnroll.json is missing in the IT project root."
+      Condition="!Exists('$(MSBuildProjectDirectory)\Reqnroll.json')" />
+  </Target>
+</Project>

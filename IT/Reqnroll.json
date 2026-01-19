@@ -1,0 +1,8 @@
+{
+    "bindingCulture": {
+        "name": "en-us"
+    },
+    "runtime": {
+        "missingOrPendingStepsOutcome": "Error"
+    }
+}
