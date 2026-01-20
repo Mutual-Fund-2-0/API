@@ -1,4 +1,7 @@
-﻿namespace API.Interfaces;
+﻿using API.DTOs;
+using API.Models;
+
+namespace API.Interfaces;
 
 /// <summary>
 /// Data access interface for mutual fund scheme repository operations.
@@ -10,5 +13,5 @@ public interface IMutualFundRepository
     /// </summary>
     /// <returns>Total number of mutual fund schemes in database</returns>
     /// <exception cref="Exception">Thrown for database failures</exception>
-    Task<int> GetMutualFundSchemesCountAsync();
+    Task<PagedResultDTO<MutualFundScheme>> GetMutualFundSchemesCountAsync(int pageNumber = 1);
 }

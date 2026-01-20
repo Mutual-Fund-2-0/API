@@ -53,7 +53,7 @@ public class MutualFundController(ILogger<MutualFundController> logger, IMutualF
         {
             var count = await _service.GetMutualFundSchemesCountAsync();
             _logger.LogInformation(RequestSuccess, "HTTP GET /schemes/count [{CorrelationId}] returned {Count}", correlationId, count);
-            return Ok(new { Count = count, CorrelationId = correlationId });
+            return Ok(new { count, correlationId });
         }
         catch(Exception e)
         {

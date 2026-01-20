@@ -1,4 +1,5 @@
 using API.Interfaces;
+using API.Models;
 
 namespace API.Services;
 
@@ -40,14 +41,14 @@ public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRep
     /// </summary>
     /// <returns>Total number of mutual fund schemes</returns>
     /// <exception cref="Exception">Rethrows repository exceptions with service context</exception>
-    public async Task<int> GetMutualFundSchemesCountAsync()
+    public async Task<List<MutualFundScheme>> GetMutualFundSchemesCountAsync()
     {
         _logger.LogDebug(MethodEntry, "Starting: {Service}-{Method}", nameof(MutualFundService), nameof(GetMutualFundSchemesCountAsync));
         try
         {
             var count = await _repository.GetMutualFundSchemesCountAsync();
-            if (count == 0)
-                _logger.LogWarning("No mutual fund schemes found");
+            // if (count == 0)
+                // _logger.LogWarning("No mutual fund schemes found");
             _logger.LogInformation("Retrieved {Count} mutual fund schemes", count);
             _logger.LogDebug(MethodExit, "{Service}-{Method}: Completed", nameof(MutualFundService), nameof(GetMutualFundSchemesCountAsync));
             return count;
