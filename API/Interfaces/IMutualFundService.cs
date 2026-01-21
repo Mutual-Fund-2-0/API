@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.DTOs;
+using API.Models;
 
 namespace API.Interfaces;
 
@@ -8,9 +9,10 @@ namespace API.Interfaces;
 public interface IMutualFundService
 {
     /// <summary>
-    /// Asynchronously retrieves total count of mutual fund schemes.
+    /// Retrieves mutual fund schemes.
     /// </summary>
-    /// <returns>Total number of valid mutual fund schemes</returns>
+    /// <param name="pageNumber">Current page number</param>
+    /// <returns>Mutual fund schemes</returns>
     /// <exception cref="Exception">Rethrows repository exceptions with service context</exception>
-    Task<List<MutualFundScheme>> GetMutualFundSchemesCountAsync();
+    Task<PagedResultDTO<MutualFundScheme>> GetMutualFundSchemesAsync(int pageNumber);
 }

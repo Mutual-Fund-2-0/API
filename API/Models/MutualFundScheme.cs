@@ -1,4 +1,6 @@
-﻿namespace API.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace API.Models;
 
 /// <summary>
 /// The table contains metadata related to mutual fund schemes. It includes details such as the fund house, scheme type, category, and unique identifiers for each scheme. This data can be used for analyzing mutual fund offerings, comparing different schemes, and understanding the structure of the mutual fund market.
@@ -24,6 +26,7 @@ public class MutualFundScheme
     /// <summary>
     /// Unique identifier for the mutual fund scheme.
     /// </summary>
+    [Key]
     public int SchemeCode { get; set; }
 
     /// <summary>

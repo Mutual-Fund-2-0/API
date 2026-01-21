@@ -1,8 +1,8 @@
 using System.Diagnostics;
+using System.Text.Json;
+
 using API.Datas;
-using API.DTOs;
 using API.Interfaces;
-using API.Mappers;
 using API.Models;
 
 using Microsoft.EntityFrameworkCore;
@@ -52,32 +52,27 @@ public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbCont
     /// <summary>
     /// Returns the schemes in MutualFundSchemes in the database.
     /// </summary>
+    /// <param name="pageNumber">Current page number</param>
     /// <returns>Mutual fund schemes</returns>
     /// <exception cref="Exception">Thrown when database operation fails</exception>
-    public async Task<PagedResultDTO<MutualFundScheme>> GetMutualFundSchemesAsync(int pageNumber = 1)
+    public async Task<(int, List<MutualFundScheme>)> GetMutualFundSchemesAsync(int pageNumber)
     {
-        _logger.LogDebug(MethodEntry, "Starting: {Repository}-{Method}", nameof(MutualFundRepository)
-            , nameof(GetMutualFundSchemesAsync));
+        _logger.LogDebug(MethodEntry, "Starting: {Repository}-{Method}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync));
         try
         {
             int offset = (pageNumber - 1) * PAGE_SIZE;
             var query = _context.MutualFundSchemes.AsQueryable();
             var stopwatch = Stopwatch.StartNew();
             int totalCount = await query.CountAsync();
-            var schemes = await query.OrderBy(scheme => scheme.SchemeCode).Skip(offset)
-                .Take(PAGE_SIZE).ToListAsync();
+            var schemes = await query.OrderBy(scheme => scheme.SchemeCode).Skip(offset).Take(PAGE_SIZE).ToListAsync();
             stopwatch.Stop();
-            if (stopwatch.ElapsedMilliseconds > 500)
-                _logger.LogWarning(SlowQuery, "Query took {ElapsedMs}ms", stopwatch.ElapsedMilliseconds);
-            _logger.LogDebug(MethodExit, "{Repository}-{Method}: Completed, schemes={Schemes}", nameof(MutualFundRepository)
-                , nameof(GetMutualFundSchemesAsync), schemes);
-            PagedResultDTO<MutualFundScheme> page = schemes.ToPagedResultDTO(pageNumber, PAGE_SIZE, totalCount);
-            return page;
+            if (stopwatch.ElapsedMilliseconds > 500) _logger.LogWarning(SlowQuery, "Query took {ElapsedMs}ms", stopwatch.ElapsedMilliseconds);
+            _logger.LogDebug(MethodExit, "{Repository}-{Method}: Completed, schemes={Schemes}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync), JsonSerializer.Serialize(schemes));
+            return (totalCount, schemes);
         }
         catch(Exception e)
         {
-            _logger.LogError(DbError, e, "{Repository}-{Method}: Failed", nameof(MutualFundRepository)
-                , nameof(GetMutualFundSchemesAsync));
+            _logger.LogError(DbError, e, "{Repository}-{Method}: Failed", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync));
             throw;
         }
     }

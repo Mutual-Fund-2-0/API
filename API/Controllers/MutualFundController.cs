@@ -1,3 +1,4 @@
+using System.Text.Json;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,25 +40,26 @@ public class MutualFundController(ILogger<MutualFundController> logger, IMutualF
     private static readonly EventId ServiceError = new(3002, "ServiceError");
 
     /// <summary>
-    /// GET endpoint returning total count of mutual fund schemes.
+    /// GET endpoint returning mutual fund schemes.
     /// </summary>
-    /// <returns>JSON object containing scheme count and correlation ID</returns>
-    /// <response code="200">Returns total mutual fund schemes count</response>
+    /// <param name="pageNumber">Current page number</param>
+    /// <returns>JSON object containing mutual fund schemes and correlation ID</returns>
+    /// <response code="200">Returns mutual fund schemes</response>
     /// <response code="500">Internal server error with correlation ID</response>
-    [HttpGet("schemes", Name = "GetMutualFundSchemesCount")]
-    public async Task<IActionResult> GetMutualFundSchemesCountAsync()
+    [HttpGet("schemes", Name = "GetMutualFundSchemes")]
+    public async Task<IActionResult> GetMutualFundSchemesAsync(int pageNumber = 1)
     {
         var correlationId = HttpContext.TraceIdentifier;
         _logger.LogDebug(RequestStart, "HTTP GET /schemes [{CorrelationId}]", correlationId);
         try
         {
-            var count = await _service.GetMutualFundSchemesCountAsync();
-            _logger.LogInformation(RequestSuccess, "HTTP GET /schemes/count [{CorrelationId}] returned {Count}", correlationId, count);
-            return Ok(new { count, correlationId });
+            var page = await _service.GetMutualFundSchemesAsync(pageNumber);
+            _logger.LogInformation(RequestSuccess, "HTTP GET /schemes/count [{CorrelationId}] returned {Page}", correlationId, JsonSerializer.Serialize(page));
+            return Ok(new { page, correlationId });
         }
         catch(Exception e)
         {
-            _logger.LogError(ServiceError, e, "HTTP GET /schemes [{CorrelationId}] {repository}-{Method}: Failed", correlationId, nameof(MutualFundController), nameof(GetMutualFundSchemesCountAsync));
+            _logger.LogError(ServiceError, e, "HTTP GET /schemes [{CorrelationId}] {repository}-{Method}: Failed", correlationId, nameof(MutualFundController), nameof(GetMutualFundSchemesAsync));
             return StatusCode(500, new { Error = "Internal server error", CorrelationId = correlationId });
         }
     }

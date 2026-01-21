@@ -77,5 +77,6 @@ public partial class MFDbContext : DbContext
     /// <summary>
     /// Method for additional model configuration from generated code.
     /// </summary>
+    /// <param name="modelBuilder">Model builder for API configuration</param>
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

@@ -1,4 +1,8 @@
+using System.Text.Json;
+
+using API.DTOs;
 using API.Interfaces;
+using API.Mappers;
 using API.Models;
 
 namespace API.Services;
@@ -37,25 +41,26 @@ public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRep
     private static readonly EventId RepoError = new(2002, "RepositoryError");
 
     /// <summary>
-    /// Retrieves total count of mutual fund schemes from repository.
+    /// Retrieves mutual fund schemes from repository.
     /// </summary>
-    /// <returns>Total number of mutual fund schemes</returns>
+    /// <param name="pageNumber">Current page number</param>
+    /// <returns>Mutual fund schemes</returns>
     /// <exception cref="Exception">Rethrows repository exceptions with service context</exception>
-    public async Task<List<MutualFundScheme>> GetMutualFundSchemesCountAsync()
+    public async Task<PagedResultDTO<MutualFundScheme>> GetMutualFundSchemesAsync(int pageNumber)
     {
-        _logger.LogDebug(MethodEntry, "Starting: {Service}-{Method}", nameof(MutualFundService), nameof(GetMutualFundSchemesCountAsync));
+        _logger.LogDebug(MethodEntry, "Starting: {Service}-{Method}", nameof(MutualFundService), nameof(GetMutualFundSchemesAsync));
         try
         {
-            var count = await _repository.GetMutualFundSchemesCountAsync();
-            // if (count == 0)
-                // _logger.LogWarning("No mutual fund schemes found");
-            _logger.LogInformation("Retrieved {Count} mutual fund schemes", count);
-            _logger.LogDebug(MethodExit, "{Service}-{Method}: Completed", nameof(MutualFundService), nameof(GetMutualFundSchemesCountAsync));
-            return count;
+            var (totalCount, schemes) = await _repository.GetMutualFundSchemesAsync(pageNumber);
+            if (schemes.Count == 0) _logger.LogWarning("No mutual fund schemes found");
+            _logger.LogInformation("Retrieved {Schemes} mutual fund schemes", JsonSerializer.Serialize(schemes));
+            _logger.LogDebug(MethodExit, "{Service}-{Method}: Completed", nameof(MutualFundService), nameof(GetMutualFundSchemesAsync));
+            PagedResultDTO<MutualFundScheme> page = schemes.ToPagedResultDTO(pageNumber, 10, totalCount);
+            return page;
         }
         catch(Exception e)
         {
-            _logger.LogError(RepoError, e, "Repository failed in {Service}-{Method}", nameof(MutualFundService), nameof(GetMutualFundSchemesCountAsync));
+            _logger.LogError(RepoError, e, "Repository failed in {Service}-{Method}", nameof(MutualFundService), nameof(GetMutualFundSchemesAsync));
             throw;
         }
     }
