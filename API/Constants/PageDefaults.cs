@@ -8,5 +8,5 @@ public static class PageDefaults
     /// <summary>
     /// Default page size.
     /// </summary>
-    public const int PageSize = 20;
+    public const int PageSize = 10;
 }
