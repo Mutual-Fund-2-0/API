@@ -1,5 +1,5 @@
 using System.Text.Json;
-
+using API.Constants;
 using API.DTOs;
 using API.Interfaces;
 using API.Mappers;
@@ -55,7 +55,7 @@ public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRep
             if (schemes.Count == 0) _logger.LogWarning("No mutual fund schemes found");
             _logger.LogInformation("Retrieved {Schemes} mutual fund schemes", JsonSerializer.Serialize(schemes));
             _logger.LogDebug(MethodExit, "{Service}-{Method}: Completed", nameof(MutualFundService), nameof(GetMutualFundSchemesAsync));
-            PagedResultDTO<MutualFundScheme> page = schemes.ToPagedResultDTO(pageNumber, 10, totalCount);
+            PagedResultDTO<MutualFundScheme> page = schemes.ToPagedResultDTO(pageNumber, PageDefaults.PageSize, totalCount);
             return page;
         }
         catch(Exception e)

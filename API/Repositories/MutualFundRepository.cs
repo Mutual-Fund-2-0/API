@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using System.Text.Json;
-
+using API.Constants;
 using API.Datas;
 using API.Interfaces;
 using API.Models;
@@ -26,8 +26,6 @@ public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbCont
     /// Database context for access.
     /// </summary>
     private readonly MFDbContext _context = context;
-
-    private const int PAGE_SIZE = 10;
 
     /// <summary>
     /// EventId for logging method entry points.
@@ -60,11 +58,11 @@ public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbCont
         _logger.LogDebug(MethodEntry, "Starting: {Repository}-{Method}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync));
         try
         {
-            int offset = (pageNumber - 1) * PAGE_SIZE;
+            int offset = (pageNumber - 1) * PageDefaults.PageSize;
             var query = _context.MutualFundSchemes.AsQueryable();
             var stopwatch = Stopwatch.StartNew();
             int totalCount = await query.CountAsync();
-            var schemes = await query.OrderBy(scheme => scheme.SchemeCode).Skip(offset).Take(PAGE_SIZE).ToListAsync();
+            var schemes = await query.OrderBy(scheme => scheme.SchemeCode).Skip(offset).Take(PageDefaults.PageSize).ToListAsync();
             stopwatch.Stop();
             if (stopwatch.ElapsedMilliseconds > 500) _logger.LogWarning(SlowQuery, "Query took {ElapsedMs}ms", stopwatch.ElapsedMilliseconds);
             _logger.LogDebug(MethodExit, "{Repository}-{Method}: Completed, schemes={Schemes}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync), JsonSerializer.Serialize(schemes));
