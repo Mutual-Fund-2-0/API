@@ -17,6 +17,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MFDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 var app = builder.Build();
 
@@ -29,7 +30,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseStaticFiles();
 //! Uncomment for production use only  app.UseHttpsRedirection(); 
-
+app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();
