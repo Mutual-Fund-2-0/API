@@ -47,7 +47,7 @@ public class MutualFundController(ILogger<MutualFundController> logger, IMutualF
     /// <response code="200">Returns mutual fund schemes</response>
     /// <response code="500">Internal server error with correlation ID</response>
     [HttpGet("schemes", Name = "GetMutualFundSchemes")]
-    public async Task<IActionResult> GetMutualFundSchemesAsync(int pageNumber = 1)
+    public async Task<IActionResult> GetMutualFundSchemesAsync([FromQuery] int pageNumber)
     {
         var correlationId = HttpContext.TraceIdentifier;
         _logger.LogDebug(RequestStart, "HTTP GET /schemes [{CorrelationId}]", correlationId);
