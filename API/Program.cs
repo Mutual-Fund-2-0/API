@@ -7,7 +7,7 @@ using API.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddHttpContextAccessor();
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddScoped<IMutualFundService, MutualFundService>();
@@ -32,7 +32,6 @@ app.UseStaticFiles();
 //! Uncomment for production use only  app.UseHttpsRedirection(); 
 app.UseCors();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

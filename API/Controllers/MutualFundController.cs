@@ -11,7 +11,7 @@ namespace API.Controllers;
 /// <param name="service">Service for mutual fund operations</param>
 [ApiController]
 [Route("[controller]")]
-public class MutualFundController(ILogger<MutualFundController> logger, IMutualFundService service) : ControllerBase
+public class MutualFundController(ILogger<MutualFundController> logger, IHttpContextAccessor http, IMutualFundService service) : ControllerBase
 {
 
     /// <summary>
@@ -19,6 +19,10 @@ public class MutualFundController(ILogger<MutualFundController> logger, IMutualF
     /// </summary>
     private readonly ILogger<MutualFundController> _logger = logger;
 
+    /// <summary>
+    /// Provides access to the current <see cref="HttpContext"/> for request-scoped data.
+    /// </summary>
+    private readonly IHttpContextAccessor _http = http;
     /// <summary>
     /// Handles mutual fund scheme data processing.
     /// </summary>
@@ -49,7 +53,7 @@ public class MutualFundController(ILogger<MutualFundController> logger, IMutualF
     [HttpGet("schemes", Name = "GetMutualFundSchemes")]
     public async Task<IActionResult> GetMutualFundSchemesAsync([FromQuery] int pageNumber)
     {
-        var correlationId = HttpContext.TraceIdentifier;
+        var correlationId = _http.HttpContext!.TraceIdentifier;
         _logger.LogDebug(RequestStart, "HTTP GET /schemes [{CorrelationId}]", correlationId);
         try
         {
