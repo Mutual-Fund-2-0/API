@@ -11,37 +11,17 @@ namespace API.Controllers;
 /// <param name="service">Service for mutual fund operations</param>
 [ApiController]
 [Route("[controller]")]
-public class MutualFundController(ILogger<MutualFundController> logger, IHttpContextAccessor http, IMutualFundService service) : ControllerBase
+public class MutualFundController(ILogger<MutualFundController> logger, IMutualFundService service) : ControllerBase
 {
-
     /// <summary>
     /// Logger instance for HTTP request/response lifecycle.
     /// </summary>
     private readonly ILogger<MutualFundController> _logger = logger;
 
     /// <summary>
-    /// Provides access to the current <see cref="HttpContext"/> for request-scoped data.
-    /// </summary>
-    private readonly IHttpContextAccessor _http = http;
-    /// <summary>
     /// Handles mutual fund scheme data processing.
     /// </summary>
     private readonly IMutualFundService _service = service;
-
-    /// <summary>
-    /// EventId for HTTP request start events.
-    /// </summary>
-    private static readonly EventId RequestStart = new(3000, "RequestStart");
-
-    /// <summary>
-    /// EventId for successful HTTP responses.
-    /// </summary>
-    private static readonly EventId RequestSuccess = new(3001, "RequestSuccess");
-
-    /// <summary>
-    /// EventId for service layer failures in HTTP context.
-    /// </summary>
-    private static readonly EventId ServiceError = new(3002, "ServiceError");
 
     /// <summary>
     /// GET endpoint returning mutual fund schemes.
@@ -53,18 +33,16 @@ public class MutualFundController(ILogger<MutualFundController> logger, IHttpCon
     [HttpGet("schemes", Name = "GetMutualFundSchemes")]
     public async Task<IActionResult> GetMutualFundSchemesAsync([FromQuery] int pageNumber)
     {
-        var correlationId = _http.HttpContext!.TraceIdentifier;
-        _logger.LogDebug(RequestStart, "HTTP GET /schemes [{CorrelationId}]", correlationId);
         try
         {
             var page = await _service.GetMutualFundSchemesAsync(pageNumber);
-            _logger.LogInformation(RequestSuccess, "HTTP GET /schemes/count [{CorrelationId}] returned {Page}", correlationId, JsonSerializer.Serialize(page));
-            return Ok(new { page, correlationId });
+            _logger.LogInformation("HTTP GET /schemes/count returned {Page}", JsonSerializer.Serialize(page));
+            return Ok(page);
         }
         catch(Exception e)
         {
-            _logger.LogError(ServiceError, e, "HTTP GET /schemes [{CorrelationId}] {repository}-{Method}: Failed", correlationId, nameof(MutualFundController), nameof(GetMutualFundSchemesAsync));
-            return StatusCode(500, new { Error = "Internal server error", CorrelationId = correlationId });
+            _logger.LogError(e, "HTTP GET /schemes {repository}-{Method}: Failed", nameof(MutualFundController), nameof(GetMutualFundSchemesAsync));
+            return StatusCode(500, new { Error = "Internal server error" });
         }
     }
 }
