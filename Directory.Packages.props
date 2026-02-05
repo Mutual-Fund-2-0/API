@@ -36,8 +36,5 @@
     
     <!-- Coverage -->
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
-    
-    <!-- E2E -->
-    <PackageVersion Include="Microsoft.Playwright.NUnit" Version="1.52.0" />
   </ItemGroup>
 </Project>
