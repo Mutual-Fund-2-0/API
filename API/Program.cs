@@ -1,14 +1,13 @@
-using API;
 using API.Datas;
 using API.Interfaces;
 using API.Repositories;
 using API.Services;
-
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 // Add services to the container.
+builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IMutualFundService, MutualFundService>();
 builder.Services.AddScoped<IMutualFundRepository, MutualFundRepository>();
@@ -16,7 +15,7 @@ builder.Services.AddScoped<IMutualFundRepository, MutualFundRepository>();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<MFDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+builder.Services.AddDbContext<MFDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Supabase")));
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 var app = builder.Build();
