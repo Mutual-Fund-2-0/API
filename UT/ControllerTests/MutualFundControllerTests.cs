@@ -1,59 +1,102 @@
-using System.Text.Json;
+using System.Data.Common;
 using API.Controllers;
 using API.DTOs;
 using API.Interfaces;
 using API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace UT.ControllerTests;
 
-public sealed partial class MutualFundControllerTests
+/// <summary>
+/// Unit tests for MutualFundController endpoint behaviors and error handling.
+/// </summary>
+[TestFixture]
+public sealed class MutualFundControllerTests
 {
-    private Mock<ILogger<MutualFundController>> _mockedLogger;
-    private Mock<IHttpContextAccessor> _mockedAccessor;
-    private Mock<IMutualFundService> _mockedService;
-    private MutualFundController _controller;
+
     /// <summary>
-    /// 
+    /// Mocked logger instance for dependency injection.
+    /// </summary>
+    private Mock<ILogger<MutualFundController>> _mockedLogger;
+
+    /// <summary>
+    /// Mocked MutualFundService for isolating controller logic.
+    /// </summary>
+    private Mock<IMutualFundService> _mockedService;
+
+    /// <summary>
+    /// Instance of MutualFundController. 
+    /// </summary>
+    private MutualFundController _controller;
+
+    /// <summary>
+    /// Initializes mocks and creates controller instance before each test.
     /// </summary>
     [SetUp]
     public void Setup()
     {
         _mockedLogger = new();
-        _mockedAccessor = new();
         _mockedService = new();
 
-        _mockedAccessor.Setup(accessor => accessor.HttpContext!.TraceIdentifier).Returns(string.Empty);
-
-        _controller = new(_mockedLogger.Object, _mockedAccessor.Object, _mockedService.Object);
+        _controller = new(_mockedLogger.Object, _mockedService.Object);
     }
 
     /// <summary>
-    /// 
+    /// Cleans up resources after each test.
     /// </summary>
-    [TearDown]
-    public void Dispose()
-    {}
+    [OneTimeTearDown]
+    public void Dispose() => (_controller as IDisposable)?.Dispose();
 
+    /// <summary>
+    /// Verifies GetMutualFundSchemesAsync returns 200 OK with valid PagedResultDTO when service succeeds.
+    /// </summary>
+    /// <returns>Awaitable task for async test completion.</returns>
     [Test]
-    public async Task GetMutualFundSchemes_ReturnsOk_WhenServiceReturnsData()
+    public async Task GetMutualFundSchemesAsync_ReturnsOk_WhenServiceReturnsData()
     {
+
+        // Arrange
         _mockedService.Setup(service => service.GetMutualFundSchemesAsync(It.IsAny<int>())).ReturnsAsync(new PagedResultDTO<MutualFundScheme>());
+
+        // Act
         var response = await _controller.GetMutualFundSchemesAsync(It.IsAny<int>()) as OkObjectResult;
+
+        // Assert
         Assert.Multiple(() =>
         {
             Assert.That(response, Is.Not.Null);
             Assert.That(response!.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
             Assert.That(response.Value, Is.Not.Null);
-            dynamic result = response.Value!;
-            var correlationId = result.GetType().GetProperty("correlationId")?.GetValue(result, null)?.ToString();
-            var page = result.GetType().GetProperty("page")?.GetValue(result, null);
-            Assert.That(correlationId, Is.EqualTo(string.Empty));
-            Assert.That(page, Is.InstanceOf<PagedResultDTO<MutualFundScheme>>());
+            Assert.That(response.Value, Is.InstanceOf<PagedResultDTO<MutualFundScheme>>());
         });
+
+        _mockedService.Verify(service => service.GetMutualFundSchemesAsync(It.IsAny<int>()), Times.Once);
+    }
+
+    /// <summary>
+    /// Verifies GetMutualFundSchemesAsync returns 500 InternalServerError when service throws DbException.
+    /// </summary>
+    /// <returns>Awaitable task for async test completion.</returns>
+    [Test]
+    public async Task GetMutualFundSchemesAsync_ReturnsInternalServerError_WhenServiceThrowsException()
+    {
+
+        // Arrange
+        _mockedService.Setup(service => service.GetMutualFundSchemesAsync(It.IsAny<int>())).ThrowsAsync(It.IsAny<DbException>());
+
+        // Act
+        var response = await _controller.GetMutualFundSchemesAsync(It.IsAny<int>()) as ObjectResult;
+
+        // Assert
+        Assert.Multiple(() =>
+        {
+            Assert.That(response, Is.Not.Null);
+            Assert.That(response!.StatusCode, Is.EqualTo(StatusCodes.Status500InternalServerError));
+        });
+
+        _mockedService.Verify(service => service.GetMutualFundSchemesAsync(It.IsAny<int>()), Times.Once);
     }
 }
