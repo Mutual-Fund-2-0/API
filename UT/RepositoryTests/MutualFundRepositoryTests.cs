@@ -19,8 +19,8 @@ public sealed class MutualFundRepositoriesTests
     /// </summary>
     private readonly List<MutualFundScheme> schemes = [
         new() {
-            FundHouse = "TestFunds",
-            SchemeType = "TestScheme"
+            House = "TestFunds",
+            Name = "TestScheme"
         }
     ];
 
