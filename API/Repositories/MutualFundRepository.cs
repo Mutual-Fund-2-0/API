@@ -62,7 +62,7 @@ public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbCont
             var query = _context.MutualFundSchemes.AsQueryable();
             var stopwatch = Stopwatch.StartNew();
             int totalCount = await query.CountAsync();
-            var schemes = await query.OrderBy(scheme => scheme.SchemeCode).Skip(offset).Take(PageDefaults.PageSize).ToListAsync();
+            var schemes = await query.OrderBy(scheme => scheme.Code).Skip(offset).Take(PageDefaults.PageSize).ToListAsync();
             stopwatch.Stop();
             if (stopwatch.ElapsedMilliseconds > 500) _logger.LogWarning(SlowQuery, "Query took {ElapsedMs}ms", stopwatch.ElapsedMilliseconds);
             _logger.LogDebug(MethodExit, "{Repository}-{Method}: Completed, schemes={Schemes}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync), JsonSerializer.Serialize(schemes));

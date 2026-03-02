@@ -57,16 +57,17 @@ public partial class MFDbContext : DbContext
 
         modelBuilder.Entity<MutualFundScheme>(entity =>
         {
-            entity.HasKey(e => e.SchemeCode).HasName("mfapi_meta_data_pkey");
-            entity.ToTable("mutual_fund_schemes", tb => tb.HasComment("The table contains metadata related to mutual fund schemes. It includes details such as the fund house, scheme type, category, and unique identifiers for each scheme. This data can be used for analyzing mutual fund offerings, comparing different schemes, and understanding the structure of the mutual fund market."));
-            entity.Property(e => e.SchemeCode).ValueGeneratedNever().HasColumnName("scheme_code");
-            entity.Property(e => e.FundHouse).HasColumnType("character varying").HasColumnName("fund_house");
-            entity.Property(e => e.IsinDivReinvestment).HasColumnType("character varying")
-                .HasColumnName("isin_div_reinvestment");
-            entity.Property(e => e.IsinGrowth).HasColumnType("character varying").HasColumnName("isin_growth");
-            entity.Property(e => e.SchemeCategory).HasColumnType("character varying").HasColumnName("scheme_category");
-            entity.Property(e => e.SchemeName).HasColumnType("character varying").HasColumnName("scheme_name");
-            entity.Property(e => e.SchemeType).HasColumnType("character varying").HasColumnName("scheme_type");
+            entity.HasKey(e => e.Code).HasName("silver_mf_schemes_pkey");
+            entity.ToTable("mutual_fund_schemes", tb => tb.HasComment("The table contains information about mutual fund schemes. It includes details such as the scheme code, name, fund house, category, and plan option. Use cases for this data involve analyzing the range of mutual fund offerings, tracking active schemes, and organizing funds by type or category for reporting and decision-making purposes."));
+            entity.Property(e => e.Code).HasColumnName("code");
+            entity.Property(e => e.Category).HasColumnName("category");
+            entity.Property(e => e.Created).HasColumnType("timestamp without time zone").HasColumnName("created");
+            entity.Property(e => e.House).HasColumnName("house");
+            entity.Property(e => e.Type).HasColumnName("type");
+            entity.Property(e => e.Active).HasColumnName("active");
+            entity.Property(e => e.Plan).HasColumnName("plan");
+            entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.SubCategory).HasColumnName("sub_category");
         });
 
         modelBuilder.HasSequence<int>("seq_schema_version", "graphql").IsCyclic();
