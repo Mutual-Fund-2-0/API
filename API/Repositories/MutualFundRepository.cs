@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Text.Json;
 using API.Constants;
 using API.Datas;
@@ -28,26 +27,6 @@ public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbCont
     private readonly MFDbContext _context = context;
 
     /// <summary>
-    /// EventId for logging method entry points.
-    /// </summary>
-    private static readonly EventId MethodEntry = new(1000, "MethodEntry");
-
-    /// <summary>
-    /// EventId for logging successful method completion.
-    /// </summary>
-    private static readonly EventId MethodExit = new(1001, "MethodExit");
-
-    /// <summary>
-    /// EventId for database-related exceptions.
-    /// </summary>
-    private static readonly EventId DbError = new(1002, "DatabaseError");
-
-    /// <summary>
-    /// EventId for slow database queries.
-    /// </summary>
-    private static readonly EventId SlowQuery = new(1003, "SlowQuery");
-
-    /// <summary>
     /// Returns the schemes in MutualFundSchemes in the database.
     /// </summary>
     /// <param name="pageNumber">Page number</param>
@@ -55,21 +34,19 @@ public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbCont
     /// <exception cref="Exception">Thrown when database operation fails</exception>
     public async Task<(int, List<MutualFundScheme>)> GetMutualFundSchemesAsync(int pageNumber)
     {
-        _logger.LogDebug(MethodEntry, "Starting: {Repository}-{Method}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync));
+        _logger.LogDebug("Starting: {Repository} - {Method}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync));
         try
         {
             int offset = (pageNumber - 1) * PageDefaults.PageSize;
             var query = _context.MutualFundSchemes.AsQueryable();
             int totalCount = await query.CountAsync();
             var schemes = await query.OrderBy(scheme => scheme.Code).Skip(offset).Take(PageDefaults.PageSize).ToListAsync();
-            stopwatch.Stop();
-            if (stopwatch.ElapsedMilliseconds > 500) _logger.LogWarning(SlowQuery, "Query took {ElapsedMs}ms", stopwatch.ElapsedMilliseconds);
-            _logger.LogDebug(MethodExit, "{Repository}-{Method}: Completed, schemes={Schemes}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync), JsonSerializer.Serialize(schemes));
+            _logger.LogDebug("{Repository} - {Method}: Completed, schemes={Schemes}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync), JsonSerializer.Serialize(schemes));
             return (totalCount, schemes);
         }
         catch(Exception e)
         {
-            _logger.LogError(DbError, e, "{Repository}-{Method}: Failed", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync));
+            _logger.LogError(e, "{Repository} - {Method}: Failed", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync));
             throw;
         }
     }

@@ -24,21 +24,6 @@ public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRep
     private readonly IMutualFundRepository _repository = repository;
 
     /// <summary>
-    /// EventId for service method entry points.
-    /// </summary>
-    private static readonly EventId MethodEntry = new(2000, "ServiceMethodEntry");
-
-    /// <summary>
-    /// EventId for successful service method completion.
-    /// </summary>
-    private static readonly EventId MethodExit = new(2001, "ServiceMethodExit");
-
-    /// <summary>
-    /// EventId for repository layer failures in service context.
-    /// </summary>
-    private static readonly EventId RepoError = new(2002, "RepositoryError");
-
-    /// <summary>
     /// Retrieves mutual fund schemes from repository.
     /// </summary>
     /// <param name="pageNumber">Page number</param>
@@ -46,7 +31,7 @@ public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRep
     /// <exception cref="Exception">Rethrows repository exceptions with service context</exception>
     public async Task<PagedResultDTO> GetMutualFundSchemesAsync(int pageNumber)
     {
-        _logger.LogDebug(MethodEntry, "Starting: {Service}-{Method}", nameof(MutualFundService), nameof(GetMutualFundSchemesAsync));
+        _logger.LogDebug("Starting: {Service}-{Method}", nameof(MutualFundService), nameof(GetMutualFundSchemesAsync));
         try
         {
             var (totalCount, schemes) = await _repository.GetMutualFundSchemesAsync(pageNumber);
@@ -58,7 +43,7 @@ public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRep
         }
         catch(Exception e)
         {
-            _logger.LogError(RepoError, e, "Repository failed in {Service}-{Method}", nameof(MutualFundService), nameof(GetMutualFundSchemesAsync));
+            _logger.LogError(e, "Repository failed in {Service} - {Method}", nameof(MutualFundService), nameof(GetMutualFundSchemesAsync));
             throw;
         }
     }
