@@ -50,7 +50,7 @@ public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbCont
     /// <summary>
     /// Returns the schemes in MutualFundSchemes in the database.
     /// </summary>
-    /// <param name="pageNumber">Current page number</param>
+    /// <param name="pageNumber">Page number</param>
     /// <returns>Mutual fund schemes</returns>
     /// <exception cref="Exception">Thrown when database operation fails</exception>
     public async Task<(int, List<MutualFundScheme>)> GetMutualFundSchemesAsync(int pageNumber)
@@ -60,7 +60,6 @@ public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbCont
         {
             int offset = (pageNumber - 1) * PageDefaults.PageSize;
             var query = _context.MutualFundSchemes.AsQueryable();
-            var stopwatch = Stopwatch.StartNew();
             int totalCount = await query.CountAsync();
             var schemes = await query.OrderBy(scheme => scheme.Code).Skip(offset).Take(PageDefaults.PageSize).ToListAsync();
             stopwatch.Stop();

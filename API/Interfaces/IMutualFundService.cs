@@ -10,8 +10,8 @@ public interface IMutualFundService
     /// <summary>
     /// Retrieves mutual fund schemes.
     /// </summary>
-    /// <param name="pageNumber">Current page number</param>
+    /// <param name="pageNumber">Page number</param>
     /// <returns>Mutual fund schemes</returns>
     /// <exception cref="Exception">Rethrows repository exceptions with service context</exception>
-    Task<PagedResultDTO<MutualFundScheme>> GetMutualFundSchemesAsync(int pageNumber);
+    Task<PagedResultDTO> GetMutualFundSchemesAsync(int pageNumber);
 }

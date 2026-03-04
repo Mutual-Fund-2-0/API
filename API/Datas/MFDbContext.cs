@@ -12,18 +12,13 @@ public partial class MFDbContext : DbContext
     /// <summary>
     /// Default parameterless constructor for design-time tools and migrations.
     /// </summary>
-    public MFDbContext()
-    {
-    }
+    public MFDbContext() {}
 
     /// <summary>
     /// Primary constructor with DbContextOptions for dependency injection.
     /// </summary>
     /// <param name="options">EF Core configuration options including connection string</param>
-    public MFDbContext(DbContextOptions<MFDbContext> options)
-        : base(options)
-    {
-    }
+    public MFDbContext(DbContextOptions<MFDbContext> options) : base(options) {}
 
     /// <summary>
     /// DbSet providing access to MutualFundSchemes table.
@@ -60,14 +55,12 @@ public partial class MFDbContext : DbContext
             entity.HasKey(e => e.Code).HasName("silver_mf_schemes_pkey");
             entity.ToTable("mutual_fund_schemes", tb => tb.HasComment("The table contains information about mutual fund schemes. It includes details such as the scheme code, name, fund house, category, and plan option. Use cases for this data involve analyzing the range of mutual fund offerings, tracking active schemes, and organizing funds by type or category for reporting and decision-making purposes."));
             entity.Property(e => e.Code).HasColumnName("code");
-            entity.Property(e => e.Category).HasColumnName("category");
-            entity.Property(e => e.Created).HasColumnType("timestamp without time zone").HasColumnName("created");
-            entity.Property(e => e.House).HasColumnName("house");
-            entity.Property(e => e.Type).HasColumnName("type");
-            entity.Property(e => e.Active).HasColumnName("active");
-            entity.Property(e => e.Plan).HasColumnName("plan");
             entity.Property(e => e.Name).HasColumnName("name");
+            entity.Property(e => e.House).HasColumnName("house");
+            entity.Property(e => e.Plan).HasColumnName("plan");
+            entity.Property(e => e.Category).HasColumnName("category");
             entity.Property(e => e.SubCategory).HasColumnName("sub_category");
+            entity.Property(e => e.Type).HasColumnName("type");
         });
 
         modelBuilder.HasSequence<int>("seq_schema_version", "graphql").IsCyclic();

@@ -1,9 +1,7 @@
 using System.Text.Json;
-using API.Constants;
 using API.DTOs;
 using API.Interfaces;
 using API.Mappers;
-using API.Models;
 
 namespace API.Services;
 
@@ -43,7 +41,7 @@ public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRep
     /// <summary>
     /// Retrieves mutual fund schemes from repository.
     /// </summary>
-    /// <param name="pageNumber">Current page number</param>
+    /// <param name="pageNumber">Page number</param>
     /// <returns>Mutual fund schemes</returns>
     /// <exception cref="Exception">Rethrows repository exceptions with service context</exception>
     public async Task<PagedResultDTO> GetMutualFundSchemesAsync(int pageNumber)

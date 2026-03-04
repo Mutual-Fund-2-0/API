@@ -10,7 +10,7 @@ public interface IMutualFundRepository
     /// <summary>
     /// Retrieves the mutual fund schemes.
     /// </summary>
-    /// <param name="pageNumber">Current page number</param>
+    /// <param name="pageNumber">Page number</param>
     /// <returns>Mutual fund schemes</returns>
     /// <exception cref="Exception">Thrown for database failures</exception>
     Task<(int, List<MutualFundScheme>)> GetMutualFundSchemesAsync(int pageNumber);

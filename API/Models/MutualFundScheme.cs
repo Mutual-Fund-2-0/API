@@ -15,42 +15,32 @@ public class MutualFundScheme
     public int Code { get; set; }
 
     /// <summary>
-    /// Name of the mutual fund scheme 
+    /// Name of the mutual fund scheme.
     /// </summary>
     public string? Name { get; set; }
 
     /// <summary>
-    /// Name of the Asset Management Company (AMC) / Fund House 
+    /// Name of the Asset Management Company (AMC) / Fund House.
     /// </summary>
-    public string House { get; set; } = null!;
-
-    /// <summary>
-    /// Category within scheme type 
-    /// </summary>
-    public string? Category { get; set; }
-
-    /// <summary>
-    /// Sub-category within scheme type 
-    /// </summary>
-    public string? SubCategory { get; set; }
-
+    public string? House { get; set; }
+    
     /// <summary>
     /// Plan variant.
     /// </summary>
     public string? Plan { get; set; }
+    
+    /// <summary>
+    /// Category within scheme type.
+    /// </summary>
+    public string? Category { get; set; }
+
+    /// <summary>
+    /// Sub-category within scheme type.
+    /// </summary>
+    public string? SubCategory { get; set; }
 
     /// <summary>
     /// Type of mutual fund scheme.
     /// </summary>
-    public string? Type { get; set; } = null!;
-
-    /// <summary>
-    /// Indicates if the scheme is currently active/available for investment.
-    /// </summary>
-    public bool? Active { get; set; }
-
-    /// <summary>
-    /// Timestamp when the scheme record was created.
-    /// </summary>
-    public DateTime? Created { get; }
+    public string? Type { get; set; }
 }

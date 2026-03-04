@@ -24,7 +24,7 @@ public static class MutualFundSchemeMapper
             PageNumber = pageNumber,
             PageSize = pageSize,
             TotalCount = totalCount,
-            Items = schemes
+            Schemes = schemes
         };
     }
 }
