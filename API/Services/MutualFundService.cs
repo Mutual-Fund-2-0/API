@@ -46,7 +46,7 @@ public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRep
     /// <param name="pageNumber">Current page number</param>
     /// <returns>Mutual fund schemes</returns>
     /// <exception cref="Exception">Rethrows repository exceptions with service context</exception>
-    public async Task<PagedResultDTO<MutualFundScheme>> GetMutualFundSchemesAsync(int pageNumber)
+    public async Task<PagedResultDTO> GetMutualFundSchemesAsync(int pageNumber)
     {
         _logger.LogDebug(MethodEntry, "Starting: {Service}-{Method}", nameof(MutualFundService), nameof(GetMutualFundSchemesAsync));
         try
@@ -54,8 +54,8 @@ public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRep
             var (totalCount, schemes) = await _repository.GetMutualFundSchemesAsync(pageNumber);
             if (schemes.Count == 0) _logger.LogWarning("No mutual fund schemes found");
             _logger.LogInformation("Retrieved {Schemes} mutual fund schemes", JsonSerializer.Serialize(schemes));
-            _logger.LogDebug(MethodExit, "{Service}-{Method}: Completed", nameof(MutualFundService), nameof(GetMutualFundSchemesAsync));
-            PagedResultDTO<MutualFundScheme> page = schemes.ToPagedResultDTO(pageNumber, PageDefaults.PageSize, totalCount);
+            _logger.LogDebug("{Service} - {Method}: Completed", nameof(MutualFundService), nameof(GetMutualFundSchemesAsync));
+            PagedResultDTO page = schemes.ToPagedResultDTO(pageNumber, totalCount);
             return page;
         }
         catch(Exception e)

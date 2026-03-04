@@ -17,9 +17,9 @@ public static class MutualFundSchemeMapper
     /// <param name="pageSize">Number of items per page</param>
     /// <param name="totalCount">Total records available for pagination calculation</param>
     /// <returns>Fully populated PagedResultDTO for API serialization</returns>
-    public static PagedResultDTO<MutualFundScheme> ToPagedResultDTO(this List<MutualFundScheme> schemes, int pageNumber,int pageSize, int totalCount)
+    public static PagedResultDTO ToPagedResultDTO(this List<MutualFundScheme> schemes, int pageNumber, int totalCount)
     {
-        return new PagedResultDTO<MutualFundScheme>()
+        return new PagedResultDTO()
         {
             PageNumber = pageNumber,
             PageSize = pageSize,

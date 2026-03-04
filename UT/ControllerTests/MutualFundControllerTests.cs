@@ -2,7 +2,6 @@ using System.Data.Common;
 using API.Controllers;
 using API.DTOs;
 using API.Interfaces;
-using API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -59,7 +58,7 @@ public sealed class MutualFundControllerTests
     {
 
         // Arrange
-        _mockedService.Setup(service => service.GetMutualFundSchemesAsync(It.IsAny<int>())).ReturnsAsync(new PagedResultDTO<MutualFundScheme>());
+        _mockedService.Setup(service => service.GetMutualFundSchemesAsync(It.IsAny<int>())).ReturnsAsync(new PagedResultDTO());
 
         // Act
         var response = await _controller.GetMutualFundSchemesAsync(It.IsAny<int>()) as OkObjectResult;
@@ -70,7 +69,7 @@ public sealed class MutualFundControllerTests
             Assert.That(response, Is.Not.Null);
             Assert.That(response!.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
             Assert.That(response.Value, Is.Not.Null);
-            Assert.That(response.Value, Is.InstanceOf<PagedResultDTO<MutualFundScheme>>());
+            Assert.That(response.Value, Is.InstanceOf<PagedResultDTO>());
         });
 
         _mockedService.Verify(service => service.GetMutualFundSchemesAsync(It.IsAny<int>()), Times.Once);

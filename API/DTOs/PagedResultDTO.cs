@@ -1,16 +1,18 @@
-﻿namespace API.DTOs;
+﻿using API.Constants;
+using API.Models;
+
+namespace API.DTOs;
 
 /// <summary>
-/// Generic pagination response DTO for REST APIs.
+/// pagination response DTO for REST APIs.
 /// </summary>
-/// <typeparam name="T">DTO type MutualFundScheme</typeparam>
-public class PagedResultDTO<T>
+public class PagedResultDTO
 {
 
     /// <summary>
-    /// Current page's data items.
+    /// Mutual Fund Scheme list.
     /// </summary>
-    public List<T> Items { get; set; } = [];
+    public List<MutualFundScheme> Schemes { get; set; } = [];
 
     /// <summary>
     /// Total records available across all pages.

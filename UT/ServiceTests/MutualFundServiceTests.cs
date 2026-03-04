@@ -1,6 +1,5 @@
 using API.DTOs;
 using API.Interfaces;
-using API.Models;
 using API.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -49,7 +48,7 @@ public sealed class MutualFundServiceTests
     public void Dispose() => (_service as IDisposable)?.Dispose();
 
     /// <summary>
-    /// Verifies that GetMutualFundSchemesAsync returns a non‑null PagedResultDTO<MutualFundScheme> when the repository returns valid data.    
+    /// Verifies that GetMutualFundSchemesAsync returns a non‑null PagedResultDTO when the repository returns valid data.    
     /// </summary>
     /// <returns>Awaitable task for async test completion.</returns>
     [Test]
@@ -66,7 +65,7 @@ public sealed class MutualFundServiceTests
         Assert.Multiple(() =>
         {
             Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.InstanceOf<PagedResultDTO<MutualFundScheme>>());
+            Assert.That(response, Is.InstanceOf<PagedResultDTO>());
         });
 
         _mockedRepository.Verify(service => service.GetMutualFundSchemesAsync(It.IsAny<int>()), Times.Once);
