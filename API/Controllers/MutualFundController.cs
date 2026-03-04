@@ -27,22 +27,22 @@ public class MutualFundController(ILogger<MutualFundController> logger, IMutualF
     /// GET endpoint returning mutual fund schemes.
     /// </summary>
     /// <param name="pageNumber">Current page number</param>
-    /// <returns>JSON object containing mutual fund schemes and correlation ID</returns>
+    /// <returns>JSON object containing mutual fund schemes</returns>
     /// <response code="200">Returns mutual fund schemes</response>
-    /// <response code="500">Internal server error with correlation ID</response>
+    /// <response code="500">Internal server error</response>
     [HttpGet("schemes", Name = "GetMutualFundSchemes")]
     public async Task<IActionResult> GetMutualFundSchemesAsync([FromQuery] int pageNumber)
     {
         try
         {
             var page = await _service.GetMutualFundSchemesAsync(pageNumber);
-            _logger.LogInformation("HTTP GET /schemes/count returned {Page}", JsonSerializer.Serialize(page));
+            _logger.LogInformation("HTTP GET /schemes returned {Page}", JsonSerializer.Serialize(page));
             return Ok(page);
         }
         catch(Exception e)
         {
-            _logger.LogError(e, "HTTP GET /schemes {repository}-{Method}: Failed", nameof(MutualFundController), nameof(GetMutualFundSchemesAsync));
-            return StatusCode(500, new { Error = "Internal server error" });
+            _logger.LogError(e, "HTTP GET /schemes {Controller} - {Action}: Failed", nameof(MutualFundController), nameof(GetMutualFundSchemesAsync));
+            return StatusCode(500, new { Error = e.Message });
         }
     }
 }
