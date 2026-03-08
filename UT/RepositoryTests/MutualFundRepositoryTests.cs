@@ -8,7 +8,7 @@ using Moq;
 namespace UT.RepositoryTests;
 
 /// <summary>
-/// Unit tests for MutualFundService business logic and error handling.
+/// Unit tests for MutualFundService data logic and error handling.
 /// </summary>
 [TestFixture]
 public sealed class MutualFundRepositoriesTests

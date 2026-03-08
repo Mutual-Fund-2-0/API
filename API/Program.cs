@@ -15,7 +15,8 @@ builder.Services.AddScoped<IMutualFundRepository, MutualFundRepository>();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<MFDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Supabase")));
+if (builder.Environment.IsEnvironment("Testing")) builder.Services.AddDbContext<MFDbContext>(options => options.UseInMemoryDatabase(builder.Configuration.GetConnectionString("Supabase")!));
+else builder.Services.AddDbContext<MFDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Supabase")));
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 var app = builder.Build();
