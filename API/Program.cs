@@ -27,8 +27,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseStaticFiles();
-//! Uncomment for production use only  app.UseHttpsRedirection(); 
+//! prod use only app.UseStaticFiles();
+//! prod use only app.UseHttpsRedirection(); 
 app.UseCors();
 app.UseAuthorization();
 app.MapControllers();

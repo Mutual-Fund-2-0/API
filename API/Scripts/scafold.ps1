@@ -9,6 +9,7 @@ $connectionString = $json.ConnectionStrings.Supabase
 $contextName = Read-Host "Enter Context name (default: SupabaseDbContext)"
 if (-not $contextName) { $contextName = "SupabaseDbContext" }
 
+# Run EF Core scaffold command to generate models and DbContext
 dotnet ef dbcontext scaffold $connectionString Npgsql.EntityFrameworkCore.PostgreSQL --output-dir Models --context $contextName --context-dir Datas --force
 
 Write-Host "✅ Scaffolding complete!" -ForegroundColor Green

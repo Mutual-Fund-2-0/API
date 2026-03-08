@@ -4,7 +4,7 @@ using API.Models;
 namespace API.DTOs;
 
 /// <summary>
-/// pagination response DTO for REST APIs.
+/// Pagination response DTO.
 /// </summary>
 public class PagedResultDTO
 {

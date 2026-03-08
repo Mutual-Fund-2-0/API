@@ -19,7 +19,7 @@ public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRep
     private readonly ILogger<MutualFundService> _logger = logger;
 
     /// <summary>
-    /// Handles all database interactions through interface.
+    /// Handles all database interactions through repository.
     /// </summary>
     private readonly IMutualFundRepository _repository = repository;
 

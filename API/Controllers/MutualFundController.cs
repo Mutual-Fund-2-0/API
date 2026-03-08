@@ -26,8 +26,8 @@ public class MutualFundController(ILogger<MutualFundController> logger, IMutualF
     /// <summary>
     /// GET endpoint returning mutual fund schemes.
     /// </summary>
-    /// <param name="pageNumber">Current page number</param>
-    /// <returns>JSON object containing mutual fund schemes</returns>
+    /// <param name="pageNumber">Page number</param>
+    /// <returns>Mutual fund schemes</returns>
     /// <response code="200">Returns mutual fund schemes</response>
     /// <response code="500">Internal server error</response>
     [HttpGet("schemes", Name = "GetMutualFundSchemes")]

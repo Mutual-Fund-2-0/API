@@ -6,6 +6,10 @@ using API.Datas;
 
 namespace IT;
 
+/// <summary>
+/// Custom WebApplicationFactory for integration testing the Mutual Fund Schemes API.
+/// Overrides default service configuration to use in-memory database and test environment.
+/// </summary>
 public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)

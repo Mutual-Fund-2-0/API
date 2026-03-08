@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Datas;
 
 /// <summary>
-/// Provides access to MutualFundSchemes table and Supabase Postgres schema mappings.
+/// Provides access to MutualFundSchemes table & schema mappings.
 /// </summary>
 public partial class MFDbContext : DbContext
 {
@@ -17,7 +17,7 @@ public partial class MFDbContext : DbContext
     /// <summary>
     /// Primary constructor with DbContextOptions for dependency injection.
     /// </summary>
-    /// <param name="options">EF Core configuration options including connection string</param>
+    /// <param name="options">EF Core configuration options</param>
     public MFDbContext(DbContextOptions<MFDbContext> options) : base(options) {}
 
     /// <summary>

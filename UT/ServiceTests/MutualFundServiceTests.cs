@@ -20,7 +20,7 @@ public sealed class MutualFundServiceTests
     private Mock<ILogger<MutualFundService>> _mockedLogger;
 
     /// <summary>
-    /// Mocked MutualFundRepository for isolating controller logic.
+    /// Mocked MutualFundRepository for isolating service logic.
     /// </summary>
     private Mock<IMutualFundRepository> _mockedRepository;
 
@@ -42,7 +42,7 @@ public sealed class MutualFundServiceTests
     }
 
     /// <summary>
-    /// Cleans up resources after each test.
+    /// Cleans up resources.
     /// </summary>
     [OneTimeTearDown]
     public void Dispose() => (_service as IDisposable)?.Dispose();

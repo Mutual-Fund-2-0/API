@@ -1,7 +1,7 @@
 namespace API.Constants;
 
 /// <summary>
-/// Global pagination defaults used by repository and service layers.
+/// Global pagination defaults used by repository & service layers.
 /// </summary>
 public static class PageDefaults
 {

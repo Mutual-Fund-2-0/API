@@ -44,7 +44,7 @@ public sealed class MutualFundControllerTests
     }
 
     /// <summary>
-    /// Cleans up resources after each test.
+    /// Cleans up resources.
     /// </summary>
     [OneTimeTearDown]
     public void Dispose() => (_controller as IDisposable)?.Dispose();

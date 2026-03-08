@@ -30,18 +30,18 @@ public sealed class MutualFundRepositoriesTests
     private Mock<ILogger<MutualFundRepository>> _mockedLogger;
 
     /// <summary>
-    /// Instance of MutualFundService. 
+    /// Instance of MutualFundRepository. 
     /// </summary>
     public required MutualFundRepository _repository;
 
     /// <summary>
-    /// Initializes mocks and creates service instance before each test.
+    /// Initializes mocks.
     /// </summary>
     [OneTimeSetUp]
     public async Task SetupAsync() => _mockedLogger = new();
 
     /// <summary>
-    /// Cleans up resources after each test.
+    /// Cleans up resources.
     /// </summary>
     [OneTimeTearDown]
     public void Dispose() => (_repository as IDisposable)?.Dispose();
