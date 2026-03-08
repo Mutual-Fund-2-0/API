@@ -10,5 +10,5 @@ Scenario: Retrieve mutual fund schemes
 
 Scenario: Handle database outage gracefully
     Given the database connection should fails
-    When I GET "/mutualfund/schemes?pageNumber=1"
+    When Endpoint "/mutualfund/schemes?pageNumber=1" is called
     Then response status should be "500"

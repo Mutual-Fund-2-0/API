@@ -37,7 +37,7 @@ public class TestHooks
     [AfterScenario]
     public static void Teardown()
     {
-        Client.Dispose();
-        _factory.Dispose();
+        Client?.Dispose();
+        _factory?.Dispose();
     }
 }

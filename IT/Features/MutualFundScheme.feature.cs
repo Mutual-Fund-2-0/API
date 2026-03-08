@@ -166,7 +166,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
     await testRunner.GivenAsync("the database connection should fails", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 13
-    await testRunner.WhenAsync("I GET \"/mutualfund/schemes?pageNumber=1\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("Endpoint \"/mutualfund/schemes?pageNumber=1\" is called", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 14
     await testRunner.ThenAsync("response status should be \"500\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
