@@ -27,8 +27,8 @@ namespace IT.Features
         
         private static string[] featureTags = ((string[])(null));
         
-        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Mutual Fund Schemes API", "    As an API consumer\r\n    I want to retrieve mutual fund schemes\r\n    So I can " +
-                "analyze investment options", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
+        private static global::Reqnroll.FeatureInfo featureInfo = new global::Reqnroll.FeatureInfo(new global::System.Globalization.CultureInfo("en-US"), "Features", "Mutual Fund Schemes API", "    As an API consumer\n    I want to retrieve mutual fund schemes\n    So I can an" +
+                "alyze investment options", global::Reqnroll.ProgrammingLanguage.CSharp, featureTags, InitializeCucumberMessages());
         
 #line 1 "MutualFundScheme.feature"
 #line hidden
