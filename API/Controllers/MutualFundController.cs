@@ -13,6 +13,7 @@ namespace API.Controllers;
 [Route("[controller]")]
 public class MutualFundController(ILogger<MutualFundController> logger, IMutualFundService service) : ControllerBase
 {
+
     /// <summary>
     /// Logger instance for HTTP request/response lifecycle.
     /// </summary>

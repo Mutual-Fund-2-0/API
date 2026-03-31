@@ -1,9 +1,11 @@
 <Project>
+
   <PropertyGroup>
 
     <!-- Enable central package management, https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
+
   <ItemGroup>
 
     <!-- Documentation -->
@@ -37,5 +39,7 @@
     
     <!-- Coverage -->
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+
   </ItemGroup>
+
 </Project>

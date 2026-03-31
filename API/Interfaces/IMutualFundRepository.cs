@@ -7,6 +7,7 @@ namespace API.Interfaces;
 /// </summary>
 public interface IMutualFundRepository
 {
+
     /// <summary>
     /// Retrieves the mutual fund schemes.
     /// </summary>
