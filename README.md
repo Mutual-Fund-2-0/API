@@ -1,1 +1,99 @@
-# API
+## 🚀 Project Overview: Mutual Fund Schemes API
+
+[cite_start]This is a modern, high-performance **ASP.NET Core Web API** built using **.NET 10**[cite: 1, 11]. [cite_start]The project follows a robust architectural pattern with a clear separation between business logic, data access, and automated testing[cite: 9, 10]. [cite_start]It is designed to work seamlessly with **Supabase (PostgreSQL)** for production while supporting high-speed **In-Memory** execution for testing environments[cite: 14].
+
+---
+
+## 🛠️ Tech Stack & Prerequisites
+
+| Component | Technology | Version |
+| :--- | :--- | :--- |
+| **Runtime** | .NET SDK | 10.0.201 |
+| **Framework** | ASP.NET Core | [cite_start]10.0.x [cite: 6, 11] |
+| **Database** | PostgreSQL (Supabase) | [cite_start]16+ [cite: 14] |
+| **ORM** | EF Core | [cite_start]10.0.2 [cite: 7] |
+| **Documentation** | [cite_start]Swagger / OpenAPI | v10 [cite: 6] |
+| **Testing** | NUnit & Reqnroll (BDD) | [cite_start]4.3.2 / 3.3.2 [cite: 6, 7] |
+
+### 📋 Prerequisites
+1.  **Install .NET 10 SDK** (Pinned in `global.json`).
+2.  **Install local tools**: Run `dotnet tool restore` to install `dotnet-ef` and `reportgenerator`.
+3.  [cite_start]**Supabase Account**: Ensure you have access to your PostgreSQL instance[cite: 14].
+
+---
+
+## 🏗️ Project Architecture
+
+* **API**: The core Web API containing Controllers, Services, and Repositories.
+* [cite_start]**UT (Unit Tests)**: Isolated tests using **Moq** and **NUnit**[cite: 9].
+* [cite_start]**IT (Integration Tests)**: End-to-end BDD tests using **Reqnroll** and **WebApplicationFactory**[cite: 10].
+* [cite_start]**Centralized Configuration**: Uses `Directory.Build.props` for global settings and `Directory.Packages.props` for centralized version management[cite: 1, 6].
+
+---
+
+## ⚙️ Setup & Installation
+
+### 1️⃣ Database Scaffolding
+The project uses a database-first approach. To sync your C# models with the Supabase schema:
+* [cite_start]Ensure your connection string is set in `appsettings.Development.json`[cite: 14].
+* Run the scaffolding script:
+    ```powershell
+    ./scafold.ps1
+    ```
+    [cite_start]This generates the `DbContext` and Models in the `Datas` and `Models` directories[cite: 11].
+
+### 2️⃣ Restore & Build
+The project uses **Package Source Mapping** for security. To set up dependencies:
+```powershell
+dotnet restore
+dotnet build
+```
+
+### 3️⃣ Running the Application
+You can use the automated lifecycle script which handles cleaning, building, and running:
+```powershell
+./run.ps1
+```
+Alternatively, run the API manually:
+```powershell
+dotnet run --project API/API.csproj
+```
+* [cite_start]**Development URL**: `http://localhost:5291` [cite: 11]
+* **Swagger UI**: `http://localhost:5291/swagger` (Active in Development mode)
+
+---
+
+## 🧪 Testing Strategy
+
+### 🧪 Running Tests
+[cite_start]The `run.ps1` script automatically detects and executes all NUnit-based test projects[cite: 10].
+```powershell
+# Run all tests via script
+./run.ps1
+```
+
+### 🔍 Integration Testing (IT)
+* **Environment**: Uses a dedicated `Testing` environment.
+* **Database**: Automatically switches to `UseInMemoryDatabase` when the environment is set to "Testing".
+* **BDD**: Uses **Reqnroll**. [cite_start]Ensure `Reqnroll.json` exists in the IT project root before building[cite: 4, 10].
+
+---
+
+## 🌐 Environment Configurations
+
+| Environment | Database Type | Config File |
+| :--- | :--- | :--- |
+| **Development** | PostgreSQL (Supabase) | [cite_start]`appsettings.Development.json` [cite: 14] |
+| **Testing** | In-Memory DB | [cite_start]`appsettings.Testing.json` [cite: 14] |
+| **Staging** | PostgreSQL (Supabase) | [cite_start]`appsettings.Staging.json` [cite: 14] |
+| **Production** | PostgreSQL (Supabase) | [cite_start]`appsettings.json` [cite: 14] |
+
+---
+
+## 📦 Deployment Note
+* The project includes a `web.config` for **IIS/Windows Hosting** using the `AspNetCoreModuleV2` in-process model.
+* The production environment is explicitly set to `Production` within the `web.config` variables.
+* **Security**: HTTPS redirection and Static Files are currently flagged for production-use only in `Program.cs`.
+
+---
+**Happy Coding!** 💻✨
