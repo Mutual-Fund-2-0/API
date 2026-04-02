@@ -12,7 +12,6 @@ namespace API.Services;
 /// <param name="repository">Repository for mutual fund scheme data access</param>
 public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRepository repository) : IMutualFundService
 {
-
     /// <summary>
     /// Logger instance for service.
     /// </summary>

@@ -15,7 +15,6 @@ namespace API.Repositories;
 /// <param name="context">EF Core context for database operations.</param>
 public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbContext context) : IMutualFundRepository
 {
-
     /// <summary>
     /// Logger instance for repository operation.
     /// </summary>
@@ -46,10 +45,8 @@ public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbCont
             }
             int totalCount = await query.CountAsync();
             int offset = (pageNumber - 1) * PageDefaults.PageSize;
-            var query = _context.MutualFundSchemes.AsQueryable();
-            int totalCount = await query.CountAsync();
             var schemes = await query.OrderBy(scheme => scheme.Code).Skip(offset).Take(PageDefaults.PageSize).ToListAsync();
-            _logger.LogDebug("{Repository} - {Method}: Completed, schemes={Schemes}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync), JsonSerializer.Serialize(schemes));
+            _logger.LogDebug("{Repository} - {Method}: Completed. Found {Count} schemes {Schemes}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync), totalCount, JsonSerializer.Serialize(schemes));
             return (totalCount, schemes);
         }
         catch(Exception e)
