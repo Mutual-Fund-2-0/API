@@ -27,7 +27,7 @@ public class PagedResultDTO
     /// <summary>
     /// Total pages available.
     /// </summary>
-    public int TotalPages => (int)Math.Ceiling(TotalCount / (double)PageDefaults.PageSize);
+    public int TotalPages { get; set; }
 
     /// <summary>
     /// Enables/disables Next button in client pagination controls.

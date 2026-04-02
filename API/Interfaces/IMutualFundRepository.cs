@@ -11,7 +11,8 @@ public interface IMutualFundRepository
     /// Retrieves a filtered and paginated list of mutual fund schemes.
     /// </summary>
     /// <param name="pageNumber">The current page number.</param>
+    /// <param name="pageSize">Number of schemes per page.</param>
     /// <param name="searchText">Optional text to filter schemes by name or category.</param>
     /// <returns>A tuple containing the total filtered count and the list of schemes.</returns>
-    Task<(int, List<MutualFundScheme>)> GetMutualFundSchemesAsync(int pageNumber, string? searchText);
+    Task<(int, List<MutualFundScheme>)> GetMutualFundSchemesAsync(int pageNumber, int pageSize, string? searchText);
 }

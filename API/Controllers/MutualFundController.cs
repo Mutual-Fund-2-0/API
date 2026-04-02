@@ -27,17 +27,18 @@ public class MutualFundController(ILogger<MutualFundController> logger, IMutualF
     /// GET endpoint returning mutual fund schemes with search and pagination.
     /// </summary>
     /// <param name="pageNumber">The current page index.</param>
+    /// <param name="pageSize">Number of schemes per page.</param>
     /// <param name="searchText">Optional text to filter schemes by name or category</param>
     /// <returns>A paginated list of mutual fund schemes</returns>
     /// <response code="200">Returns mutual fund schemes</response>
     /// <response code="500">Internal server error</response>
     [HttpGet("schemes", Name = "GetMutualFundSchemes")]
-    public async Task<IActionResult> GetMutualFundSchemesAsync([FromQuery] int pageNumber, [FromQuery] string? searchText = null)
+    public async Task<IActionResult> GetMutualFundSchemesAsync([FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] string? searchText = null)
     {
         _logger.LogInformation("HTTP GET /schemes | Search: {Search}", searchText);
         try
         {
-            var page = await _service.GetMutualFundSchemesAsync(pageNumber, searchText);
+            var page = await _service.GetMutualFundSchemesAsync(pageNumber, pageSize, searchText);
             _logger.LogDebug("HTTP GET /schemes returned {Page}", JsonSerializer.Serialize(page));
             return Ok(page);
         }

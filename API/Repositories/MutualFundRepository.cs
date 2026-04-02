@@ -1,5 +1,4 @@
 using System.Text.Json;
-using API.Constants;
 using API.Datas;
 using API.Interfaces;
 using API.Models;
@@ -29,10 +28,11 @@ public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbCont
     /// Returns the schemes in MutualFundSchemes in the database.
     /// </summary>
     /// <param name="pageNumber">Page number.</param>
+    /// <param name="pageSize">Number of schemes per page.</param>
     /// <param name="searchText">Optional text to filter schemes by name or category.</param>
     /// <returns>Mutual fund schemes.</returns>
     /// <exception cref="Exception">Thrown when database operation fails.</exception>
-    public async Task<(int, List<MutualFundScheme>)> GetMutualFundSchemesAsync(int pageNumber, string? searchText)
+    public async Task<(int, List<MutualFundScheme>)> GetMutualFundSchemesAsync(int pageNumber, int pageSize, string? searchText)
     {
         _logger.LogInformation("Starting: {Repository} - {Method} | Search: {Search}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync), searchText);
         try
@@ -44,8 +44,8 @@ public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbCont
                 query = query.Where(scheme => scheme.Name!.ToLower().Contains(loweredSearchText) || scheme.Category!.ToLower().Contains(loweredSearchText) || scheme.House!.ToLower().Contains(loweredSearchText) || scheme.Plan!.ToLower().Contains(loweredSearchText) || scheme.SubCategory!.ToLower().Contains(loweredSearchText) || scheme.Type!.ToLower().Contains(loweredSearchText));
             }
             int totalCount = await query.CountAsync();
-            int offset = (pageNumber - 1) * PageDefaults.PageSize;
-            var schemes = await query.OrderBy(scheme => scheme.Code).Skip(offset).Take(PageDefaults.PageSize).ToListAsync();
+            int offset = (pageNumber - 1) * pageSize;
+            var schemes = await query.OrderBy(scheme => scheme.Code).Skip(offset).Take(pageSize).ToListAsync();
             _logger.LogDebug("{Repository} - {Method}: Completed. Found {Count} schemes {Schemes}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync), totalCount, JsonSerializer.Serialize(schemes));
             return (totalCount, schemes);
         }
