@@ -54,7 +54,7 @@ public sealed class MutualFundRepositoriesTests
         _repository = new(_mockedLogger.Object, context);
 
         // Act
-        var (totalCount, _schemes) = await _repository.GetMutualFundSchemesAsync(1, "test");
+        var (totalCount, _schemes) = await _repository.GetMutualFundSchemesAsync(1, 1, "test");
 
         // Assert
         Assert.Multiple(() =>
@@ -80,6 +80,6 @@ public sealed class MutualFundRepositoriesTests
         var repository = new MutualFundRepository(_mockedLogger.Object, mockContext.Object);
 
         // Act & Assert
-        Assert.ThrowsAsync<NpgsqlException>(async () => await repository.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<string>()));
+        Assert.ThrowsAsync<NpgsqlException>(async () => await repository.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()));
     }
 }

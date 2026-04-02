@@ -10,7 +10,7 @@ Feature: Mutual Fund Schemes API
 Scenario: Retrieve mutual fund schemes
 
     #  Action: Simulates the GET request to the specific API route.
-    When Endpoint "/mutualfund/schemes?pageNumber=1&searchText=others" is called
+    When Endpoint "/mutualfund/schemes?pageNumber=1&pageSize=10&searchText=others" is called
 
     #  Outcome: Verifies the standard HTTP 200 OK status.
     Then response status should be "200"
@@ -25,7 +25,7 @@ Scenario: Handle database outage gracefully
     Given the database connection should fails
 
     #  Action: Attempts the API call under failure conditions.
-    When Endpoint "/mutualfund/schemes?pageNumber=1" is called
+    When Endpoint "/mutualfund/schemes?pageNumber=1&pageSize=10" is called
 
     #  Outcome: Verifies the API returns HTTP 500 Internal Server Error.
     Then response status should be "500"

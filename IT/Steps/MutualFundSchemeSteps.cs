@@ -69,10 +69,7 @@ public class MutualFundSteps
             builder.ConfigureServices(services =>
             {
                 var mockRepo = new Mock<IMutualFundRepository>();
-                mockRepo.Setup(x => x.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<string>()))
-                        .ThrowsAsync(new Exception("Database connection failed"));
-                
-                // Overrides the existing registration with the mock object
+                mockRepo.Setup(x => x.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).ThrowsAsync(new Exception("Database connection failed"));
                 services.AddScoped(_ => mockRepo.Object);
             });
         });

@@ -59,10 +59,10 @@ public sealed class MutualFundControllerTests
     {
 
         // Arrange
-        _mockedService.Setup(service => service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<string>())).ReturnsAsync(TestSeedData.GetPagedResultDTO());
+        _mockedService.Setup(service => service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).ReturnsAsync(TestSeedData.GetPagedResultDTO());
 
         // Act
-        var response = await _controller.GetMutualFundSchemesAsync(1, "test") as OkObjectResult;
+        var response = await _controller.GetMutualFundSchemesAsync(1, 1, "test") as OkObjectResult;
 
         // Assert
         Assert.Multiple(() =>
@@ -73,7 +73,7 @@ public sealed class MutualFundControllerTests
             Assert.That(response.Value, Is.InstanceOf<PagedResultDTO>());
         });
 
-        _mockedService.Verify(service => service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
+        _mockedService.Verify(service => service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once);
     }
 
     /// <summary>
@@ -85,10 +85,10 @@ public sealed class MutualFundControllerTests
     {
 
         // Arrange
-        _mockedService.Setup(service => service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<string>())).ThrowsAsync(It.IsAny<DbException>());
+        _mockedService.Setup(service => service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).ThrowsAsync(It.IsAny<DbException>());
 
         // Act
-        var response = await _controller.GetMutualFundSchemesAsync(It.IsAny<int>()) as ObjectResult;
+        var response = await _controller.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()) as ObjectResult;
 
         // Assert
         Assert.Multiple(() =>
@@ -97,6 +97,6 @@ public sealed class MutualFundControllerTests
             Assert.That(response!.StatusCode, Is.EqualTo(StatusCodes.Status500InternalServerError));
         });
 
-        _mockedService.Verify(service => service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
+        _mockedService.Verify(service => service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once);
     }
 }

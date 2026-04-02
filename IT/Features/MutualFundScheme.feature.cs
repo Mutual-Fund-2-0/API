@@ -130,7 +130,8 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 13
-    await testRunner.WhenAsync("Endpoint \"/mutualfund/schemes?pageNumber=1&searchText=others\" is called", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("Endpoint \"/mutualfund/schemes?pageNumber=1&pageSize=10&searchText=others\" is call" +
+                        "ed", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 16
     await testRunner.ThenAsync("response status should be \"200\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
@@ -166,7 +167,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
     await testRunner.GivenAsync("the database connection should fails", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 28
-    await testRunner.WhenAsync("Endpoint \"/mutualfund/schemes?pageNumber=1\" is called", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("Endpoint \"/mutualfund/schemes?pageNumber=1&pageSize=10\" is called", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 31
     await testRunner.ThenAsync("response status should be \"500\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

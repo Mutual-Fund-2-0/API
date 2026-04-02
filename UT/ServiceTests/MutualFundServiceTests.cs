@@ -1,6 +1,5 @@
 using API.DTOs;
 using API.Interfaces;
-using API.Models;
 using API.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -58,10 +57,10 @@ public sealed class MutualFundServiceTests
     {
 
         // Arrange
-        _mockedRepository.Setup(repository => repository.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<string>())).ReturnsAsync((1, TestSeedData.GetMutualFundSchemes()));
+        _mockedRepository.Setup(repository => repository.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).ReturnsAsync((1, TestSeedData.GetMutualFundSchemes()));
 
         // Act
-        var response = await _service.GetMutualFundSchemesAsync(1, "test");
+        var response = await _service.GetMutualFundSchemesAsync(1, 1, "test");
 
         // Assert
         Assert.Multiple(() =>
@@ -71,7 +70,7 @@ public sealed class MutualFundServiceTests
             Assert.That(response, Is.InstanceOf<PagedResultDTO>());
         });
 
-        _mockedRepository.Verify(service => service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
+        _mockedRepository.Verify(service => service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once);
     }
 
     /// <summary>
@@ -83,12 +82,12 @@ public sealed class MutualFundServiceTests
     {
 
         // Arrange
-        _mockedRepository.Setup(repository => repository.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<string>())).ThrowsAsync(new NpgsqlException());
+        _mockedRepository.Setup(repository => repository.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).ThrowsAsync(new NpgsqlException());
 
         // Act
         // Assert
-        Assert.ThrowsAsync<NpgsqlException>(async () => await _service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<string>()));
+        Assert.ThrowsAsync<NpgsqlException>(async () => await _service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()));
 
-        _mockedRepository.Verify(repository => repository.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
+        _mockedRepository.Verify(repository => repository.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once);
     }
 }
