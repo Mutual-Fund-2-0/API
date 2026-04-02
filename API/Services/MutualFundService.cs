@@ -38,6 +38,7 @@ public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRep
             if (schemes.Count == 0) _logger.LogWarning("No mutual fund schemes found for search: {Search}", searchText);
             _logger.LogDebug("Retrieved {Count} mutual fund schemes - {Schemes}", totalCount, JsonSerializer.Serialize(schemes));
             PagedResultDTO page = schemes.ToPagedResultDTO(pageNumber, totalCount);
+            _logger.LogInformation("Converted page result from schemes {Page}", page);
             return page;
         }
         catch(Exception e)
