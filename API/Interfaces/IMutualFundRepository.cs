@@ -9,7 +9,7 @@ public interface IMutualFundRepository
 {
 
     /// <summary>
-    /// Retrieves the mutual fund schemes.
+    /// Retrieves a filtered and paginated list of mutual fund schemes.
     /// </summary>
     /// <param name="pageNumber">The current page number.</param>
     /// <param name="searchText">Optional text to filter schemes by name or category.</param>

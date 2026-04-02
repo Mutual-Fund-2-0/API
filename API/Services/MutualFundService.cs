@@ -24,7 +24,7 @@ public class MutualFundService(ILogger<MutualFundService> logger, IMutualFundRep
     private readonly IMutualFundRepository _repository = repository;
 
     /// <summary>
-    /// Retrieves mutual fund schemes from repository.
+    /// Retrieves mutual fund schemes from repository with search and pagination logic.
     /// </summary>
     /// <param name="pageNumber">Page number.</param>
     /// <param name="searchText">Optional search filter.</param>

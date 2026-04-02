@@ -11,8 +11,8 @@ namespace API.Repositories;
 /// <summary>
 /// Handles all database interactions for mutual fund scheme data.
 /// </summary>
-/// <param name="logger">Logger instance for repository</param>
-/// <param name="context">EF Core context for database operations</param>
+/// <param name="logger">Logger instance for repository.</param>
+/// <param name="context">EF Core context for database operations.</param>
 public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbContext context) : IMutualFundRepository
 {
 

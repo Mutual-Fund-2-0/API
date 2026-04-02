@@ -25,7 +25,7 @@ public class MutualFundController(ILogger<MutualFundController> logger, IMutualF
     private readonly IMutualFundService _service = service;
 
     /// <summary>
-    /// GET endpoint returning mutual fund schemes.
+    /// GET endpoint returning mutual fund schemes with search and pagination.
     /// </summary>
     /// <param name="pageNumber">The current page index.</param>
     /// <param name="searchText">Optional text to filter schemes by name or category</param>
