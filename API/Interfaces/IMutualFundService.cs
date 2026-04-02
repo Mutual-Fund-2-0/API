@@ -11,8 +11,8 @@ public interface IMutualFundService
     /// <summary>
     /// Retrieves mutual fund schemes.
     /// </summary>
-    /// <param name="pageNumber">Page number</param>
-    /// <returns>Mutual fund schemes</returns>
-    /// <exception cref="Exception">Rethrows repository exceptions with service context</exception>
-    Task<PagedResultDTO> GetMutualFundSchemesAsync(int pageNumber);
+    /// <param name="pageNumber">The current page number.</param>
+    /// <param name="searchText">The optional text to filter schemes.</param>
+    /// <returns>A paginated result containing mutual fund schemes.</returns>
+    Task<PagedResultDTO> GetMutualFundSchemesAsync(int pageNumber, string? searchText);
 }

@@ -29,14 +29,22 @@ public class MutualFundRepository(ILogger<MutualFundRepository> logger, MFDbCont
     /// <summary>
     /// Returns the schemes in MutualFundSchemes in the database.
     /// </summary>
-    /// <param name="pageNumber">Page number</param>
-    /// <returns>Mutual fund schemes</returns>
-    /// <exception cref="Exception">Thrown when database operation fails</exception>
-    public async Task<(int, List<MutualFundScheme>)> GetMutualFundSchemesAsync(int pageNumber)
+    /// <param name="pageNumber">Page number.</param>
+    /// <param name="searchText">Optional text to filter schemes by name or category.</param>
+    /// <returns>Mutual fund schemes.</returns>
+    /// <exception cref="Exception">Thrown when database operation fails.</exception>
+    public async Task<(int, List<MutualFundScheme>)> GetMutualFundSchemesAsync(int pageNumber, string? searchText)
     {
-        _logger.LogDebug("Starting: {Repository} - {Method}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync));
+        _logger.LogInformation("Starting: {Repository} - {Method} | Search: {Search}", nameof(MutualFundRepository), nameof(GetMutualFundSchemesAsync), searchText);
         try
         {
+            var query = _context.MutualFundSchemes.AsNoTracking().AsQueryable();
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                string loweredSearchText = searchText.ToLower();
+                query = query.Where(scheme => scheme.Name!.ToLower().Contains(loweredSearchText) || scheme.Category!.ToLower().Contains(loweredSearchText) || scheme.House!.ToLower().Contains(loweredSearchText) || scheme.Plan!.ToLower().Contains(loweredSearchText) || scheme.SubCategory!.ToLower().Contains(loweredSearchText) || scheme.Type!.ToLower().Contains(loweredSearchText));
+            }
+            int totalCount = await query.CountAsync();
             int offset = (pageNumber - 1) * PageDefaults.PageSize;
             var query = _context.MutualFundSchemes.AsQueryable();
             int totalCount = await query.CountAsync();
