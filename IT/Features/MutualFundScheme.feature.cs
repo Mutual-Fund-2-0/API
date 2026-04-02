@@ -130,7 +130,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
             {
                 await this.ScenarioStartAsync();
 #line 13
-    await testRunner.WhenAsync("Endpoint \"/mutualfund/schemes?pageNumber=1\" is called", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync("Endpoint \"/mutualfund/schemes?pageNumber=1&searchText=others\" is called", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 16
     await testRunner.ThenAsync("response status should be \"200\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");

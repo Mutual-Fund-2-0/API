@@ -10,7 +10,7 @@ Feature: Mutual Fund Schemes API
 Scenario: Retrieve mutual fund schemes
 
     #  Action: Simulates the GET request to the specific API route.
-    When Endpoint "/mutualfund/schemes?pageNumber=1" is called
+    When Endpoint "/mutualfund/schemes?pageNumber=1&searchText=others" is called
 
     #  Outcome: Verifies the standard HTTP 200 OK status.
     Then response status should be "200"

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Npgsql;
+using UT.Utils;
 
 namespace UT.RepositoryTests;
 
@@ -14,16 +15,6 @@ namespace UT.RepositoryTests;
 [TestFixture]
 public sealed class MutualFundRepositoriesTests
 {
-    
-    /// <summary>
-    /// Seed data for mutual fund list.
-    /// </summary>
-    private readonly List<MutualFundScheme> schemes = [
-        new() {
-            House = "TestFunds",
-            Name = "TestScheme"
-        }
-    ];
 
     /// <summary>
     /// Mocked logger instance for dependency injection.
@@ -56,20 +47,20 @@ public sealed class MutualFundRepositoriesTests
     {
 
         // Arrange
-        var options = new DbContextOptionsBuilder<MFDbContext>().UseInMemoryDatabase(databaseName: "TestDB").Options;
+        var options = new DbContextOptionsBuilder<MFDbContext>().UseInMemoryDatabase(databaseName: "UnitTestDB").Options;
         await using var context = new MFDbContext(options);
-        context.MutualFundSchemes.AddRange(this.schemes);
+        context.MutualFundSchemes.AddRange(TestSeedData.GetMutualFundSchemes());
         await context.SaveChangesAsync();
         _repository = new(_mockedLogger.Object, context);
 
         // Act
-        var (totalCount, schemes) = await _repository.GetMutualFundSchemesAsync(It.IsAny<int>());
+        var (totalCount, _schemes) = await _repository.GetMutualFundSchemesAsync(1, "test");
 
         // Assert
         Assert.Multiple(() =>
         {
             Assert.That(totalCount, Is.Not.EqualTo(0));
-            Assert.That(schemes, Is.InstanceOf<List<MutualFundScheme>>());
+            Assert.That(_schemes, Is.InstanceOf<List<MutualFundScheme>>());
         });
     }
 
@@ -81,16 +72,14 @@ public sealed class MutualFundRepositoriesTests
     public async Task GetMutualFundSchemesAsync_ThrowsException_WhenNetworkFailure()
     {
         // Arrange
-        var mockedSet = new Mock<DbSet<MutualFundScheme>>();
-        mockedSet.Setup(m => m.AsQueryable()).Throws(new NpgsqlException("Connection to server failed"));
-        var options = new DbContextOptionsBuilder<MFDbContext>().UseInMemoryDatabase(databaseName: "TestDB").Options;
-        await using var context = new MFDbContext(options);
-        context.MutualFundSchemes = mockedSet.Object;
+        var options = new DbContextOptionsBuilder<MFDbContext>().UseInMemoryDatabase(databaseName: "FailureTestDB").Options;
+        var mockContext = new Mock<MFDbContext>(options);
 
-        // Act
-        var repository = new MutualFundRepository(_mockedLogger.Object, context);
+        mockContext.Setup(c => c.MutualFundSchemes).Throws(new NpgsqlException("Connection to server failed"));
 
-        // Assert
-        Assert.ThrowsAsync<NpgsqlException>(async () => await repository.GetMutualFundSchemesAsync(It.IsAny<int>()));
+        var repository = new MutualFundRepository(_mockedLogger.Object, mockContext.Object);
+
+        // Act & Assert
+        Assert.ThrowsAsync<NpgsqlException>(async () => await repository.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<string>()));
     }
 }
