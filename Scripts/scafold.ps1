@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 Write-Host "🛠️  Scaffolding Supabase DbContext..." -ForegroundColor Cyan
 
 # Safely resolve appsettings path
-$appsettingsPath = Join-Path $PSScriptRoot "..\appsettings.Development.json"
+$appsettingsPath = Join-Path $PSScriptRoot "..\API\appsettings.Development.json"
 
 if (-not (Test-Path $appsettingsPath)) {
     Write-Host "❌ Error: Could not find $appsettingsPath. Make sure the file exists." -ForegroundColor Red
@@ -32,9 +32,10 @@ Write-Host "⏳ Generating models from database..." -ForegroundColor Yellow
 
 # Run EF Core scaffold command securely without hardcoding credentials in the output
 dotnet ef dbcontext scaffold $connectionString Npgsql.EntityFrameworkCore.PostgreSQL `
-    --output-dir Models `
+    --project ..\API\API.csproj `
+    --output-dir ..\API\Models `
     --context $contextName `
-    --context-dir Datas `
+    --context-dir ..\API\Datas `
     --no-onconfiguring `
     --force
 
