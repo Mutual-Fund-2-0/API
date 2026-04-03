@@ -23,7 +23,7 @@ public partial class MFDbContext : DbContext
     /// <summary>
     /// DbSet providing access to MutualFundSchemes table.
     /// </summary>
-    public virtual DbSet<MutualFundScheme> MutualFundSchemes { get; set; }
+    public virtual DbSet<Scheme> Schemes { get; set; }
 
     /// <summary>
     /// Configures EF Core model mappings for database schema.
@@ -50,7 +50,7 @@ public partial class MFDbContext : DbContext
             .HasPostgresExtension("graphql", "pg_graphql")
             .HasPostgresExtension("vault", "supabase_vault");
 
-        modelBuilder.Entity<MutualFundScheme>(entity =>
+        modelBuilder.Entity<Scheme>(entity =>
         {
             entity.HasKey(e => e.Code).HasName("silver_mf_schemes_pkey");
             entity.ToTable("mutual_fund_schemes", tb => tb.HasComment("The table contains information about mutual fund schemes. It includes details such as the scheme code, name, fund house, category, and plan option. Use cases for this data involve analyzing the range of mutual fund offerings, tracking active schemes, and organizing funds by type or category for reporting and decision-making purposes."));

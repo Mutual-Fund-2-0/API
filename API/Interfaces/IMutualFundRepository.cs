@@ -13,6 +13,7 @@ public interface IMutualFundRepository
     /// <param name="pageNumber">The current page number.</param>
     /// <param name="pageSize">Number of schemes per page.</param>
     /// <param name="searchText">Optional text to filter schemes by name or category.</param>
-    /// <returns>A tuple containing the total filtered count and the list of schemes.</returns>
-    Task<(int, List<MutualFundScheme>)> GetMutualFundSchemesAsync(int pageNumber, int pageSize, string? searchText);
+    /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+    /// <returns>A tuple containing the total filtered count and the readonly collection of schemes.</returns>
+    Task<(int totalCount, IReadOnlyCollection<Scheme> schemes)> GetMutualFundSchemesAsync(int pageNumber, int pageSize, string? searchText, CancellationToken cancellationToken = default);
 }

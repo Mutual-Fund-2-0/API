@@ -1,33 +1,30 @@
-﻿using API.Constants;
-using API.Models;
-
-namespace API.DTOs;
+﻿namespace API.DTOs;
 
 /// <summary>
-/// Pagination response DTO.
+/// A generic pagination response DTO for any data model.
 /// </summary>
-public class PagedResultDTO
+/// <typeparam name="T">The type of the paginated items.</typeparam>
+public record PagedResultDTO<T>
 {
-
     /// <summary>
     /// Mutual Fund Scheme list.
     /// </summary>
-    public List<MutualFundScheme> Schemes { get; set; } = [];
+    public required IReadOnlyCollection<T> Items { get; init; }
 
     /// <summary>
     /// Total records available across all pages.
     /// </summary>
-    public int TotalCount { get; set; }
+    public required int TotalCount { get; init; }
 
     /// <summary>
     /// Current page number.
     /// </summary>
-    public int PageNumber { get; set; }
+    public required int PageNumber { get; init; }
 
     /// <summary>
     /// Total pages available.
     /// </summary>
-    public int TotalPages { get; set; }
+    public required int TotalPages { get; init; }
 
     /// <summary>
     /// Enables/disables Next button in client pagination controls.

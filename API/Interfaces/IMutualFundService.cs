@@ -1,4 +1,5 @@
 ﻿using API.DTOs;
+using API.Models;
 
 namespace API.Interfaces;
 
@@ -13,6 +14,7 @@ public interface IMutualFundService
     /// <param name="pageNumber">The current page number.</param>
     /// <param name="pageSize">The number of schemes per page.</param>
     /// <param name="searchText">The optional text to filter schemes.</param>
+    /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
     /// <returns>A paginated result containing mutual fund schemes.</returns>
-    Task<PagedResultDTO> GetMutualFundSchemesAsync(int pageNumber, int pageSize, string? searchText);
+    Task<PagedResultDTO<Scheme>> GetMutualFundSchemesAsync(int pageNumber, int pageSize, string? searchText, CancellationToken cancellationToken = default);
 }
