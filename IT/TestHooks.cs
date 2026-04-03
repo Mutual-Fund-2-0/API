@@ -1,4 +1,5 @@
 using Reqnroll;
+using Reqnroll.BoDi;
 
 namespace IT;
 
@@ -9,12 +10,6 @@ namespace IT;
 [Binding]
 public class TestHooks
 {
-
-    /// <summary>
-    /// Shared HTTP client for making API calls during integration tests.
-    /// </summary>
-    public static HttpClient Client = null!;
-
     /// <summary>
     /// Custom WebApplicationFactory for hosting the API under test with test-specific configuration.
     /// </summary>
@@ -24,20 +19,29 @@ public class TestHooks
     /// Initializes test infrastructure before each scenario runs.
     /// </summary>
 
-    [BeforeScenario]
+    [BeforeTestRun]
     public static void Setup()
     {
         _factory = new CustomWebApplicationFactory();
-        Client = _factory.CreateClient();
+    }
+
+    /// <summary>
+    /// Creates a fresh, isolated HttpClient for each scenario and registers it 
+    /// in Reqnroll's built-in Dependency Injection container.
+    /// </summary>
+    [BeforeScenario]
+    public static void SetupScenario(IObjectContainer objectContainer)
+    {
+        var client = _factory.CreateClient();
+        objectContainer.RegisterInstanceAs(client);
     }
 
     /// <summary>
     /// Cleans up test resources after each scenario completes.
     /// </summary>
-    [AfterScenario]
+    [AfterTestRun]
     public static void Teardown()
     {
-        Client?.Dispose();
         _factory?.Dispose();
     }
 }

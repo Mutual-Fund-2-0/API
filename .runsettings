@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          
+          <Format>cobertura</Format>
+          
+          <Exclude>
+            [API]API.DTOs.*,
+            [API]API.Models.*,
+            [API]API.Datas.*,
+            [API]API.Mappers.*,
+            [API]API.Middlewares.*
+          </Exclude>
+          
+          <ExcludeByFile>
+            **/Program.cs,
+            **/*.generated.cs,
+            **/*.g.cs
+          </ExcludeByFile>
+          
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>
