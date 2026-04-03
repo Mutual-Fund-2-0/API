@@ -1,8 +1,17 @@
 {
-    "bindingCulture": {
-        "name": "en-us"
-    },
-    "runtime": {
-        "missingOrPendingStepsOutcome": "Error"
-    }
+  "language": {
+    "feature": "en"
+  },
+  "bindingCulture": {
+    "name": "en-US"
+  },
+  "runtime": {
+    "missingOrPendingStepsOutcome": "Error"
+  },
+  "generator": {
+    "addNonParallelizableMarkerForTags": [
+      "sequential",
+      "database"
+    ]
+  }
 }

@@ -1,5 +1,4 @@
 <Project>
-
   <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
   <!-- Global defaults -->
   <PropertyGroup>
@@ -9,26 +8,21 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
 
     <!-- Analysis -->
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <!-- Test project defaults -->
   <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
-
     <!-- Test output hygiene -->
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <GenerateProgramFile>false</GenerateProgramFile>
     <IsPackable>false</IsPackable>
     <OutputType>library</OutputType>
   </PropertyGroup>
-
-  <!-- Reqnroll generator safety -->
-  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'IT'">
-
-    <!-- Ensures feature code-behind generation -->
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-  </PropertyGroup>
-
 </Project>

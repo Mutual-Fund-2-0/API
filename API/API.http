@@ -1,6 +1,13 @@
 @API_HostAddress = http://localhost:5291
 
-GET {{API_HostAddress}}/weatherforecast/
+### Get Schemes
+# Tests if your pageNumber and pageSize logic works correctly
+GET {{API_HostAddress}}/schemes?pageNumber=1&pageSize=10
+Accept: application/json
+
+### Combined Search and Pagination
+# Tests the full integration of all parameters
+GET {{API_HostAddress}}/schemes?pageNumber=1&pageSize=10&searchText=Other
 Accept: application/json
 
 ###

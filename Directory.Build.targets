@@ -2,14 +2,19 @@
 
   <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
   <!-- Prevent test projects from being packed -->
-  <Target Name="PreventPackingTestProjects" BeforeTargets="Pack" Condition="'$(IsTestProject)' == 'true'">
-    <Error Text="Test projects must not be packed." />
+  <Target Name="EnforceNoPackTests" BeforeTargets="Pack" Condition="'$(IsTestProject)' == 'true'">
+    <PropertyGroup>
+      <IsPackable>false</IsPackable>
+    </PropertyGroup>
+    <Error Text="Security/Policy Violation: Test projects in this solution must not be packed into NuGet packages." />
   </Target>
 
   <!-- Ensure Reqnroll.json exists for IT -->
-  <Target Name="EnsureReqnrollConfigExists" BeforeTargets="Build" Condition="'$(MSBuildProjectName)' == 'IT'">
-    <Error Text="Reqnroll.json is missing in the IT project root."
-      Condition="!Exists('$(MSBuildProjectDirectory)\Reqnroll.json')" />
-  </Target>
+  <Target Name="ValidateReqnrollConfig" BeforeTargets="Build" Condition="'$(IsTestProject)' == 'true' AND @(PackageReference->AnyHaveMetadataValue('Identity', 'Reqnroll'))">
+    <PropertyGroup>
+      <_ReqnrollJsonExists Condition="Exists('$(MSBuildProjectDirectory)\reqnroll.json') OR Exists('$(MSBuildProjectDirectory)\Reqnroll.json')">true</_ReqnrollJsonExists>
+    </PropertyGroup>
 
+    <Error Text="Reqnroll Configuration Missing: $(MSBuildProjectName) requires a 'reqnroll.json' file in the project root for proper BDD execution." Condition="'$(_ReqnrollJsonExists)' != 'true'" />
+  </Target>
 </Project>

@@ -97,3 +97,7 @@ dotnet run --project API/API.csproj
 
 ---
 **Happy Coding!** 💻✨
+
+# dotnet reportgenerator -reports:"./artifacts/coverage/UT/*/coverage.cobertura.xml" -targetdir:"./artifacts/report" -reporttypes:Html
+
+# dotnet test --settings ../.runsettings --collect:"XPlat Code Coverage" --results-directory "../artifacts/coverage/UT"
