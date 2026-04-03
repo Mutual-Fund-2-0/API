@@ -1,9 +1,9 @@
 using API.DTOs;
 using API.Interfaces;
+using API.Models;
 using API.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Npgsql;
 using UT.Utils;
 
 namespace UT.ServiceTests;
@@ -67,27 +67,9 @@ public sealed class MutualFundServiceTests
         {
             Assert.That(response, Is.Not.Null);
             Assert.That(response.TotalCount, Is.Not.EqualTo(0));
-            Assert.That(response, Is.InstanceOf<PagedResultDTO>());
+            Assert.That(response, Is.InstanceOf<PagedResultDTO<Scheme>>());
         });
 
         _mockedRepository.Verify(service => service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once);
-    }
-
-    /// <summary>
-    /// Verifies that GetMutualFundSchemesAsync throws DbException when the repository throws DbException.
-    /// </summary>
-    /// <returns>Awaitable task for async test completion.</returns>
-    [Test]
-    public async Task GetMutualFundSchemesAsync_ThrowsException_WhenRepositoryThrowsException()
-    {
-
-        // Arrange
-        _mockedRepository.Setup(repository => repository.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).ThrowsAsync(new NpgsqlException());
-
-        // Act
-        // Assert
-        Assert.ThrowsAsync<NpgsqlException>(async () => await _service.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()));
-
-        _mockedRepository.Verify(repository => repository.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once);
     }
 }

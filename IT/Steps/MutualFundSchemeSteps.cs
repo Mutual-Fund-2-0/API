@@ -1,6 +1,7 @@
-using System.Text.Json;
+using System.Net.Http.Json;
 using API.DTOs;
 using API.Interfaces;
+using API.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Reqnroll;
@@ -11,7 +12,7 @@ namespace IT.Steps;
 /// Contains the step definitions for testing Mutual Fund API functionality using Reqnroll.
 /// </summary>
 [Binding]
-public class MutualFundSteps
+public class MutualFundSteps(HttpClient client)
 {
 
     /// <summary>
@@ -22,7 +23,7 @@ public class MutualFundSteps
     /// <summary>
     /// Stores the deserialized data transfer object containing the paged result of mutual fund schemes.
     /// </summary>
-    private PagedResultDTO _result = null!;
+    private PagedResultDTO<Scheme> _result = null!;
 
     /// <summary>
     /// Performs a GET request to the specified API endpoint and deserializes the result if successful.
@@ -32,9 +33,8 @@ public class MutualFundSteps
     [When(@"Endpoint ""(.*)"" is called")]
     public async Task WhenEndpointCalled(string endpoint)
     {
-        _response = await TestHooks.Client.GetAsync(endpoint);
-        var json = await _response.Content.ReadAsStringAsync();
-        if(_response.IsSuccessStatusCode) _result = JsonSerializer.Deserialize<PagedResultDTO>(json)!;
+        _response = await client.GetAsync(endpoint);
+        if(_response.IsSuccessStatusCode) _result = (await _response.Content.ReadFromJsonAsync<PagedResultDTO<Scheme>>())!;
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public class MutualFundSteps
         Assert.Multiple(() =>
         {
             Assert.That(_result, Is.Not.Null);
-            Assert.That(_result, Is.InstanceOf<PagedResultDTO>());
+            Assert.That(_result, Is.InstanceOf<PagedResultDTO<Scheme>>());
         });
     }
 
@@ -62,17 +62,17 @@ public class MutualFundSteps
     /// This uses WebApplicationFactory to override the real repository with a Moq object.
     /// </summary>
     [Given(@"the database connection should fails")]
-    public static void WhenDatabaseConnectionFails()
+    public void WhenDatabaseConnectionFails()
     {
         var factory = TestHooks._factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureServices(services =>
             {
                 var mockRepo = new Mock<IMutualFundRepository>();
-                mockRepo.Setup(x => x.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).ThrowsAsync(new Exception("Database connection failed"));
+                mockRepo.Setup(x => x.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ThrowsAsync(new Exception("Database connection failed"));
                 services.AddScoped(_ => mockRepo.Object);
             });
         });
-        TestHooks.Client = factory.CreateClient();
+        client = factory.CreateClient();
     }
 }
