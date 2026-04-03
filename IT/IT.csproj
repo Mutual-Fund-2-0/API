@@ -12,7 +12,18 @@
     <PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="Reqnroll" />
     <PackageReference Include="Reqnroll.NUnit" />
-    <PackageReference Include="Reqnroll.Tools.MsBuild.Generation" PrivateAssets="all" />
+    <PackageReference Include="Reqnroll.Tools.MsBuild.Generation">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NUnit.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

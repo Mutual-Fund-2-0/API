@@ -1,45 +1,35 @@
 <Project>
-
   <PropertyGroup>
-
     <!-- Enable central package management, https://learn.microsoft.com/en-us/nuget/consume-packages/Central-Package-Management -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CoreVersion>10.0.2</CoreVersion>
+    <ReqnrollVersion>3.3.2</ReqnrollVersion>
   </PropertyGroup>
-
   <ItemGroup>
-
     <!-- Documentation -->
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(CoreVersion)" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.13.18" />
     <PackageVersion Include="Moq" Version="4.20.72" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.0" />
-    
     <!-- .NET Test Infrastructure -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
-    
     <!-- NUnit -->
     <PackageVersion Include="NUnit" Version="4.3.2" />
     <PackageVersion Include="NUnit3TestAdapter" Version="5.0.0" />
     <PackageVersion Include="NUnit.Analyzers" Version="4.7.0" />
-    
     <!-- Reqnroll  -->
-    <PackageVersion Include="Reqnroll" Version="3.3.2" />
-    <PackageVersion Include="Reqnroll.NUnit" Version="3.3.2" />
-    <PackageVersion Include="Reqnroll.Tools.MsBuild.Generation" Version="3.3.2" />
-    
+    <PackageVersion Include="Reqnroll" Version="$(ReqnrollVersion)" />
+    <PackageVersion Include="Reqnroll.NUnit" Version="$(ReqnrollVersion)" />
+    <PackageVersion Include="Reqnroll.Tools.MsBuild.Generation" Version="$(ReqnrollVersion)" />
     <!-- ASP.NET Core Testing -->
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.2" />
-    
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="$(CoreVersion)" />
     <!-- EF Core -->
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.2" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(CoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(CoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(CoreVersion)" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.2" />
-    
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(CoreVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(CoreVersion)" />
     <!-- Coverage -->
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
-
   </ItemGroup>
-
 </Project>
