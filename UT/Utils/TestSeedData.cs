@@ -11,7 +11,7 @@ public static class TestSeedData
     /// <summary>
     /// Returns a standardized list of mutual fund schemes for DB and Repository testing.
     /// </summary>
-    public static List<MutualFundScheme> GetMutualFundSchemes() =>
+    public static List<Scheme> GetMutualFundSchemes() =>
     [
         new()
         {
@@ -23,9 +23,11 @@ public static class TestSeedData
     /// <summary>
     /// Returns a standardized PagedResultDTO for Service and Controller testing.
     /// </summary>
-    public static PagedResultDTO GetPagedResultDTO() => new()
+    public static PagedResultDTO<Scheme> GetPagedResultDTO() => new()
     {
-        Schemes = GetMutualFundSchemes(),
-        TotalCount = 1
+        Items = GetMutualFundSchemes(),
+        PageNumber = 1,
+        TotalCount = 1,
+        TotalPages = 10
     };
 }
