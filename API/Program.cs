@@ -1,5 +1,3 @@
-// TODO: Add Exception & Logging Middleware
-
 using API.Datas;
 using API.Interfaces;
 using API.Repositories;
@@ -37,8 +35,8 @@ builder.Services.AddRateLimiter(options =>
             partitionKey: httpContext.Connection.RemoteIpAddress?.ToString(),
             factory: partition => new FixedWindowRateLimiterOptions
             {
-                PermitLimit = 30,
-                Window = TimeSpan.FromMinutes(1),
+                PermitLimit = 3,
+                Window = TimeSpan.FromSeconds(1),
                 QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                 QueueLimit = 0
             }

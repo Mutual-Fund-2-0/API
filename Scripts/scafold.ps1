@@ -25,7 +25,7 @@ try {
 
 $contextName = Read-Host "Enter Context name (default: SupabaseDbContext)"
 if ([string]::IsNullOrWhiteSpace($contextName)) { 
-    $contextName = "SupabaseDbContext" 
+    $contextName = "SupabaseDbContext"
 }
 
 Write-Host "⏳ Generating models from database..." -ForegroundColor Yellow

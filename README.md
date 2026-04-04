@@ -1,6 +1,6 @@
 ## 🚀 Project Overview: Mutual Fund Schemes API
 
-[cite_start]This is a modern, high-performance **ASP.NET Core Web API** built using **.NET 10**[cite: 1, 11]. [cite_start]The project follows a robust architectural pattern with a clear separation between business logic, data access, and automated testing[cite: 9, 10]. [cite_start]It is designed to work seamlessly with **Supabase (PostgreSQL)** for production while supporting high-speed **In-Memory** execution for testing environments[cite: 14].
+This is a modern, high-performance **ASP.NET Core Web API** built using **.NET 10**. The project follows a robust architectural pattern with a clear separation between business logic, data access, and automated testing. It is designed to work seamlessly with **Supabase (PostgreSQL)** for production while supporting high-speed **In-Memory** execution for testing environments.
 
 ---
 
@@ -9,25 +9,25 @@
 | Component | Technology | Version |
 | :--- | :--- | :--- |
 | **Runtime** | .NET SDK | 10.0.201 |
-| **Framework** | ASP.NET Core | [cite_start]10.0.x [cite: 6, 11] |
-| **Database** | PostgreSQL (Supabase) | [cite_start]16+ [cite: 14] |
-| **ORM** | EF Core | [cite_start]10.0.2 [cite: 7] |
-| **Documentation** | [cite_start]Swagger / OpenAPI | v10 [cite: 6] |
-| **Testing** | NUnit & Reqnroll (BDD) | [cite_start]4.3.2 / 3.3.2 [cite: 6, 7] |
+| **Framework** | ASP.NET Core | 10.0.x |
+| **Database** | PostgreSQL (Supabase) | 16+ |
+| **ORM** | EF Core | 10.0.2 |
+| **Documentation** | Swagger / OpenAPI | v10 |
+| **Testing** | NUnit & Reqnroll (BDD) | 4.3.2 / 3.3.2 |
 
 ### 📋 Prerequisites
 1.  **Install .NET 10 SDK** (Pinned in `global.json`).
 2.  **Install local tools**: Run `dotnet tool restore` to install `dotnet-ef` and `reportgenerator`.
-3.  [cite_start]**Supabase Account**: Ensure you have access to your PostgreSQL instance[cite: 14].
+3.  **Supabase Account**: Ensure you have access to your PostgreSQL instance.
 
 ---
 
 ## 🏗️ Project Architecture
 
 * **API**: The core Web API containing Controllers, Services, and Repositories.
-* [cite_start]**UT (Unit Tests)**: Isolated tests using **Moq** and **NUnit**[cite: 9].
-* [cite_start]**IT (Integration Tests)**: End-to-end BDD tests using **Reqnroll** and **WebApplicationFactory**[cite: 10].
-* [cite_start]**Centralized Configuration**: Uses `Directory.Build.props` for global settings and `Directory.Packages.props` for centralized version management[cite: 1, 6].
+* **UT (Unit Tests)**: Isolated tests using **Moq** and **NUnit**.
+* **IT (Integration Tests)**: End-to-end BDD tests using **Reqnroll** and **WebApplicationFactory**.
+* **Centralized Configuration**: Uses `Directory.Build.props` for global settings and `Directory.Packages.props` for centralized version management.
 
 ---
 
@@ -35,12 +35,12 @@
 
 ### 1️⃣ Database Scaffolding
 The project uses a database-first approach. To sync your C# models with the Supabase schema:
-* [cite_start]Ensure your connection string is set in `appsettings.Development.json`[cite: 14].
+* Ensure your connection string is set in `appsettings.Development.json`.
 * Run the scaffolding script:
     ```powershell
     ./scafold.ps1
     ```
-    [cite_start]This generates the `DbContext` and Models in the `Datas` and `Models` directories[cite: 11].
+    This generates the `DbContext` and Models in the `Datas` and `Models` directories.
 
 ### 2️⃣ Restore & Build
 The project uses **Package Source Mapping** for security. To set up dependencies:
@@ -58,7 +58,7 @@ Alternatively, run the API manually:
 ```powershell
 dotnet run --project API/API.csproj
 ```
-* [cite_start]**Development URL**: `http://localhost:5291` [cite: 11]
+* **Development URL**: `http://localhost:5291`
 * **Swagger UI**: `http://localhost:5291/swagger` (Active in Development mode)
 
 ---
@@ -66,7 +66,7 @@ dotnet run --project API/API.csproj
 ## 🧪 Testing Strategy
 
 ### 🧪 Running Tests
-[cite_start]The `run.ps1` script automatically detects and executes all NUnit-based test projects[cite: 10].
+The `run.ps1` script automatically detects and executes all NUnit-based test projects.
 ```powershell
 # Run all tests via script
 ./run.ps1
@@ -75,7 +75,7 @@ dotnet run --project API/API.csproj
 ### 🔍 Integration Testing (IT)
 * **Environment**: Uses a dedicated `Testing` environment.
 * **Database**: Automatically switches to `UseInMemoryDatabase` when the environment is set to "Testing".
-* **BDD**: Uses **Reqnroll**. [cite_start]Ensure `Reqnroll.json` exists in the IT project root before building[cite: 4, 10].
+* **BDD**: Uses **Reqnroll**. Ensure `Reqnroll.json` exists in the IT project root before building.
 
 To make your **README.md** professional and helpful for other developers (or your future self), it’s best to wrap these commands in a section that explains **why** they are being used and **what** the expected output is.
 
@@ -112,10 +112,10 @@ dotnet reportgenerator -reports:"./artifacts/coverage/UT/*/coverage.cobertura.xm
 
 | Environment | Database Type | Config File |
 | :--- | :--- | :--- |
-| **Development** | PostgreSQL (Supabase) | [cite_start]`appsettings.Development.json` [cite: 14] |
-| **Testing** | In-Memory DB | [cite_start]`appsettings.Testing.json` [cite: 14] |
-| **Staging** | PostgreSQL (Supabase) | [cite_start]`appsettings.Staging.json` [cite: 14] |
-| **Production** | PostgreSQL (Supabase) | [cite_start]`appsettings.json` [cite: 14] |
+| **Development** | PostgreSQL (Supabase) | `appsettings.Development.json` |
+| **Testing** | In-Memory DB | `appsettings.Testing.json` |
+| **Staging** | PostgreSQL (Supabase) | `appsettings.Staging.json` |
+| **Production** | PostgreSQL (Supabase) | `appsettings.json` |
 
 ---
 
