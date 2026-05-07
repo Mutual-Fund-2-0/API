@@ -26,13 +26,15 @@ jobs:
         run: dotnet tool restore
 
       - name: 🧪 Run Build, Tests, and Coverage
-        shell: pwsh
+        shell: bash
         run: |
-          # Make PowerShell scripts executable on Linux runners
-          chmod +x *.ps1
-          # Your test.ps1 already calls common.ps1 to build, run tests, and generate the HTML report.
-          # We just run it natively using GitHub's built-in PowerShell Core.
-          ./test.ps1
+          # 1. Quick debug check: list files so you can verify they are in the root
+          echo "Current directory contents:"
+          ls -la
+          # 2. Use bash to natively handle the wildcard and make scripts executable
+          chmod +x *.ps1 || echo "Warning: No .ps1 files found to chmod."
+          # 3. Explicitly execute the script using the PowerShell Core engine
+          pwsh ./test.ps1
 
       - name: 📊 Upload Coverage Report
         # Uploads the HTML dashboard your script generated so you can view it in the GitHub UI
