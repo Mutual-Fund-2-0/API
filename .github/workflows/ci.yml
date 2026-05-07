@@ -1,0 +1,46 @@
+name: .NET CI Pipeline
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-test-and-package:
+    name: Build, Test, and Verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛒 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          # Automatically reads exactly "10.0.201" from your global.json!
+          global-json-file: global.json
+
+      - name: 🔧 Restore Local Tools
+        # Required to install dotnet-reportgenerator-globaltool as defined in dotnet-tools.json
+        run: dotnet tool restore
+
+      - name: 🧪 Run Build, Tests, and Coverage
+        shell: pwsh
+        run: |
+          # Make PowerShell scripts executable on Linux runners
+          chmod +x *.ps1
+          # Your test.ps1 already calls common.ps1 to build, run tests, and generate the HTML report.
+          # We just run it natively using GitHub's built-in PowerShell Core.
+          ./test.ps1
+
+      - name: 📊 Upload Coverage Report
+        # Uploads the HTML dashboard your script generated so you can view it in the GitHub UI
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html-report
+          path: artifacts/report/
+          retention-days: 14
+
+      - name: 🐳 Validate Docker Build
+        # Ensures your Dockerfile is healthy and builds successfully
+        run: docker buildx build -t mutual-fund-api:ci-test .
