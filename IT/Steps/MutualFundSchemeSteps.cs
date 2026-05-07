@@ -9,7 +9,7 @@ using Reqnroll;
 namespace IT.Steps;
 
 /// <summary>
-/// Contains the step definitions for testing Mutual Fund API functionality using Reqnroll.
+/// Contains the step definitions for testing Mutual Fund API functionality.
 /// </summary>
 [Binding]
 public class MutualFundSteps(HttpClient client)
@@ -40,7 +40,7 @@ public class MutualFundSteps(HttpClient client)
     /// <summary>
     /// Asserts that the HTTP response status code matches the expected status code.
     /// </summary>
-    /// <param name="statusCode">The expected integer HTTP status code (e.g., 200, 500).</param>
+    /// <param name="statusCode">The expected integer HTTP status code.</param>
     [Then(@"response status should be ""(.*)""")]
     public void ThenResponseStatusIs(int statusCode) => Assert.That((int)_response.StatusCode, Is.EqualTo(statusCode));
 
@@ -64,15 +64,12 @@ public class MutualFundSteps(HttpClient client)
     [Given(@"the database connection should fails")]
     public void WhenDatabaseConnectionFails()
     {
-        var factory = TestHooks._factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
+        var factory = TestHooks.Factory.WithWebHostBuilder(builder => builder.ConfigureServices(services =>
             {
                 var mockRepo = new Mock<IMutualFundRepository>();
                 mockRepo.Setup(x => x.GetMutualFundSchemesAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).ThrowsAsync(new Exception("Database connection failed"));
                 services.AddScoped(_ => mockRepo.Object);
-            });
-        });
+            }));
         client = factory.CreateClient();
     }
 }

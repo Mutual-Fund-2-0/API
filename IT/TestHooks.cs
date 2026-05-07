@@ -13,7 +13,7 @@ public class TestHooks
     /// <summary>
     /// Custom WebApplicationFactory for hosting the API under test with test-specific configuration.
     /// </summary>
-    public static CustomWebApplicationFactory _factory = null!;
+    public static CustomWebApplicationFactory Factory = null!;
 
     /// <summary>
     /// Initializes test infrastructure before each scenario runs.
@@ -22,17 +22,16 @@ public class TestHooks
     [BeforeTestRun]
     public static void Setup()
     {
-        _factory = new CustomWebApplicationFactory();
+        Factory = new CustomWebApplicationFactory();
     }
 
     /// <summary>
-    /// Creates a fresh, isolated HttpClient for each scenario and registers it 
-    /// in Reqnroll's built-in Dependency Injection container.
+    /// Creates a fresh, isolated HttpClient for each scenario and registers it.
     /// </summary>
     [BeforeScenario]
     public static void SetupScenario(IObjectContainer objectContainer)
     {
-        var client = _factory.CreateClient();
+        var client = Factory.CreateClient();
         objectContainer.RegisterInstanceAs(client);
     }
 
@@ -42,6 +41,6 @@ public class TestHooks
     [AfterTestRun]
     public static void Teardown()
     {
-        _factory?.Dispose();
+        Factory?.Dispose();
     }
 }

@@ -15,7 +15,7 @@ public sealed class MutualFundRepositoriesTests
     /// <summary>
     /// Instance of MutualFundRepository. 
     /// </summary>
-    public required MutualFundRepository _repository;
+    private MutualFundRepository _repository;
 
     /// <summary>
     /// Cleans up resources.
@@ -39,13 +39,13 @@ public sealed class MutualFundRepositoriesTests
         _repository = new(context);
 
         // Act
-        var (totalCount, _schemes) = await _repository.GetMutualFundSchemesAsync(1, 1, "test");
+        var (totalCount, schemes) = await _repository.GetMutualFundSchemesAsync(1, 1, "test");
 
         // Assert
         Assert.Multiple(() =>
         {
             Assert.That(totalCount, Is.Not.EqualTo(0));
-            Assert.That(_schemes, Is.InstanceOf<List<Scheme>>());
+            Assert.That(schemes, Is.InstanceOf<List<Scheme>>());
         });
     }
 }
